@@ -1,39 +1,29 @@
 import React from 'react'
 
-import './App.css'
-import viteLogo from '../public/vite.svg'
-import reactLogo from './assets/react.svg'
+import Loader from '@components/Loader/Loader'
+import ThrowError from '@components/ThrowError/ThrowError'
+import { fetchData, searchData } from '@api/api'
 
 class App extends React.Component {
   state = {
     count: 0,
-  }
-
-  handleCountUpdate = () => {
-    this.setState({
-      count: this.state.count + 1,
-    })
+    url: null,
   }
 
   render(): React.ReactNode {
     return (
       <>
         <div>
-          <a href='https://vitejs.dev' target='_blank' rel='noreferrer'>
-            <img src={viteLogo} className='logo' alt='Vite logo' />
-          </a>
-          <a href='https://react.dev' target='_blank' rel='noreferrer'>
-            <img src={reactLogo} className='logo react' alt='React logo' />
-          </a>
+          {this.state.count}
+          {this.state.url}
+          DB_PASSWORD
+          {import.meta.env.VITE_API_URL}
         </div>
-        <h1>Vite + React</h1>
-        <div className='card'>
-          <button onClick={this.handleCountUpdate}>count is {this.state.count}</button>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test HMR
-          </p>
-        </div>
-        <p className='read-the-docs'>Click on the Vite and React logos to learn more</p>
+        <button onClick={fetchData}>ok fetch</button>
+        <button onClick={() => searchData('phone')}>ok search</button>
+        <input />
+        <Loader />
+        <ThrowError />
       </>
     )
   }
