@@ -1,5 +1,13 @@
 .cardBox {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  border: 1px solid white;
+  max-width: 20vw;
+}
+
+.cardTextBox {
+  align-items: start;
   padding: 1rem;
 }

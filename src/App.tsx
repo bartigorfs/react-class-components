@@ -3,6 +3,7 @@ import React from 'react'
 import Loader from '@components/Loader/Loader'
 import ThrowError from '@components/ThrowError/ThrowError'
 import { fetchData, searchData } from '@api/api'
+import Card from '@components/Card/Card'
 
 class App extends React.Component {
   state = {
@@ -13,12 +14,7 @@ class App extends React.Component {
   render(): React.ReactNode {
     return (
       <>
-        <div>
-          {this.state.count}
-          {this.state.url}
-          DB_PASSWORD
-          {import.meta.env.VITE_API_URL}
-        </div>
+        <Card />
         <button onClick={fetchData}>ok fetch</button>
         <button onClick={() => searchData('phone')}>ok search</button>
         <input />
