@@ -5,6 +5,10 @@
   border-radius: 10px;
   border: 1px solid white;
   max-width: 20vw;
+
+  img {
+    object-fit: contain;
+  }
 }
 
 .cardTextBox {

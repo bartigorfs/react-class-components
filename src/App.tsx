@@ -7,14 +7,23 @@ import Card from '@components/Card/Card'
 
 class App extends React.Component {
   state = {
-    count: 0,
-    url: null,
+    cards: [],
+  }
+
+  async componentDidMount(): Promise<void> {
+    const result = await fetchData()
+    this.setState({
+      cards: result,
+    })
   }
 
   render(): React.ReactNode {
     return (
       <>
-        <Card />
+        {this.state.cards.length > 0 &&
+          this.state.cards.map((item) => (
+            <Card imageUrl={item.images[0]} title={item.title} description={item.description} />
+          ))}
         <button onClick={fetchData}>ok fetch</button>
         <button onClick={() => searchData('phone')}>ok search</button>
         <input />
