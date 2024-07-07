@@ -24,7 +24,7 @@ class Card extends React.PureComponent<CardProps> {
           width={'200'}
         ></LazyLoadImage>
         <div className={styles.cardTextBox}>
-          <div>{this.props.title}</div>
+          <div className='bold'>{this.props.title}</div>
           <div>{this.props.description}</div>
         </div>
       </div>

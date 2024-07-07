@@ -10,6 +10,7 @@
     "noEmit": true,
     "baseUrl": "./src",
     "paths": {
+      "@utils/*": ["core/utils/*"],
       "@components/*": ["core/components/*"],
       "@api/*": ["core/api/*"]
     }

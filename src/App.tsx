@@ -1,29 +1,30 @@
 import React from 'react'
 
+import { fetchData } from '@api/api'
+import { Product } from '@api/api.models'
+
+import Cards from '@components/Cards/Cards'
 import Loader from '@components/Loader/Loader'
 import ThrowError from '@components/ThrowError/ThrowError'
-import { fetchData, searchData } from '@api/api'
-import Card from '@components/Card/Card'
-import { Product } from '@api/api.models'
-import Cards from '@components/Cards/Cards'
+import SearchField from '@components/SearchField/SearchField'
 
 interface AppState {
-  cards: any[]
+  cards: Product[]
   loadingCards: boolean
 }
 
-class App extends React.Component {
+class App extends React.Component<{}, AppState> {
   state: AppState = {
     cards: [],
     loadingCards: false,
   }
 
-  fetchProductsData = async () => {
+  fetchProductsData = async (query?: string) => {
     this.setState({
       loadingCards: true,
     })
     try {
-      const result = await fetchData()
+      const result = await fetchData(query)
       this.setState({
         cards: result,
         loadingCards: false,
@@ -36,6 +37,10 @@ class App extends React.Component {
     }
   }
 
+  handleSearch = (query: string) => {
+    this.fetchProductsData(query)
+  }
+
   async componentDidMount(): Promise<void> {
     this.fetchProductsData()
   }
@@ -46,9 +51,7 @@ class App extends React.Component {
     return (
       <div className='container'>
         <button onClick={() => this.fetchProductsData()}>ok fetch</button>
-        <button onClick={() => searchData('phone')}>ok search</button>
-        <input />
-        <Loader />
+        <SearchField onSearch={this.handleSearch} />
         {loadingCards ? <Loader /> : <Cards cards={cards} />}
         <ThrowError />
       </div>

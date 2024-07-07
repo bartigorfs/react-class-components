@@ -1,18 +1,28 @@
 import { GetProductsResponse, Product } from './api.models'
 
-export const fetchData = async (): Promise<Product[]> => {
-  const response: GetProductsResponse = await (
-    await fetch(
-      `${import.meta.env.VITE_API_URL}products/category/${import.meta.env.VITE_API_START_CATEGORY}?limit=${import.meta.env.VITE_API_PRODUCTS_MAX_COUNT}`,
-    )
-  ).json()
-  console.log(response)
-  return response.products
+const apiThrottle = new Promise((resolve) =>
+  setTimeout(resolve, import.meta.env.VITE_API_THROTTLE_TIME),
+)
+
+const makeRequestUrl = (query: string | undefined) => {
+  if (query) {
+    return `${import.meta.env.VITE_API_URL}products/search?q=${query}`
+  }
+  return `${import.meta.env.VITE_API_URL}products/category/${import.meta.env.VITE_API_START_CATEGORY}?limit=${import.meta.env.VITE_API_PRODUCTS_MAX_COUNT}`
 }
 
-export const searchData = async (query: string) => {
-  const response = await (
-    await fetch(`${import.meta.env.VITE_API_URL}products/search?q=${query}`)
-  ).json()
-  console.log(response)
+export const fetchData = async (query?: string): Promise<Product[] | null> => {
+  try {
+    let requestUrl: string = makeRequestUrl(query)
+
+    const response = await fetch(requestUrl)
+
+    const requestThrottle = await Promise.all([response, apiThrottle])
+
+    const json: GetProductsResponse = await requestThrottle[0].json()
+    return json.products
+  } catch (e) {
+    console.log(e)
+    return null
+  }
 }
