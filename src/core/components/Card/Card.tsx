@@ -2,13 +2,10 @@ import React, { ReactNode } from 'react'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 import styles from './Card.module.css'
-import skeleton from '@assets/skeleton.svg'
+import noimage from '@assets/nothing.gif'
+import { Product } from '@api/api.models'
 
-interface CardProps {
-  title: string
-  imageUrl: string
-  description: string
-}
+interface CardProps extends Pick<Product, 'images' | 'thumbnail' | 'title' | 'description'> {}
 
 class Card extends React.PureComponent<CardProps> {
   constructor(props: CardProps) {
@@ -21,8 +18,8 @@ class Card extends React.PureComponent<CardProps> {
         <LazyLoadImage
           alt={'Image'}
           height={'200'}
-          src={this.props.imageUrl}
-          placeholderSrc={skeleton}
+          src={this.props?.images?.length > 0 ? this.props?.images[0] : noimage}
+          placeholderSrc={this.props.thumbnail}
           effect='blur'
           width={'200'}
         ></LazyLoadImage>

@@ -4,32 +4,54 @@ import Loader from '@components/Loader/Loader'
 import ThrowError from '@components/ThrowError/ThrowError'
 import { fetchData, searchData } from '@api/api'
 import Card from '@components/Card/Card'
+import { Product } from '@api/api.models'
+import Cards from '@components/Cards/Cards'
+
+interface AppState {
+  cards: any[]
+  loadingCards: boolean
+}
 
 class App extends React.Component {
-  state = {
+  state: AppState = {
     cards: [],
+    loadingCards: false,
+  }
+
+  fetchProductsData = async () => {
+    this.setState({
+      loadingCards: true,
+    })
+    try {
+      const result = await fetchData()
+      this.setState({
+        cards: result,
+        loadingCards: false,
+      })
+    } catch (e) {
+      this.setState({
+        cards: [],
+        loadingCards: false,
+      })
+    }
   }
 
   async componentDidMount(): Promise<void> {
-    const result = await fetchData()
-    this.setState({
-      cards: result,
-    })
+    this.fetchProductsData()
   }
 
   render(): React.ReactNode {
+    const { cards, loadingCards } = this.state
+
     return (
-      <>
-        {this.state.cards.length > 0 &&
-          this.state.cards.map((item) => (
-            <Card imageUrl={item.images[0]} title={item.title} description={item.description} />
-          ))}
-        <button onClick={fetchData}>ok fetch</button>
+      <div className='container'>
+        <button onClick={() => this.fetchProductsData()}>ok fetch</button>
         <button onClick={() => searchData('phone')}>ok search</button>
         <input />
         <Loader />
+        {loadingCards ? <Loader /> : <Cards cards={cards} />}
         <ThrowError />
-      </>
+      </div>
     )
   }
 }

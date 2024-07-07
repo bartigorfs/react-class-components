@@ -1,6 +1,6 @@
 import React from 'react'
 
-import loader from '@assets/loader.gif'
+import loader from '@assets/skeleton.svg'
 
 class Loader extends React.PureComponent {
   render(): React.ReactNode {
