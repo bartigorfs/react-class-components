@@ -14,7 +14,7 @@ export const fetchData = async (query?: string): Promise<Product[] | null> => {
   )
 
   try {
-    let requestUrl: string = makeRequestUrl(query)
+    const requestUrl: string = makeRequestUrl(query)
 
     const response = await fetch(requestUrl)
 
