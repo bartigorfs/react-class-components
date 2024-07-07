@@ -1,6 +1,12 @@
 import React from 'react'
 
-class ThrowError extends React.Component {
+interface ThrowErrorProps {}
+
+interface ThrowErrorState {
+  throwError: boolean
+}
+
+class ThrowError extends React.Component<ThrowErrorProps, ThrowErrorState> {
   state = { throwError: false }
 
   handleClick = () => {

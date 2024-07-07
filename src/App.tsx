@@ -8,15 +8,22 @@ import Loader from '@components/Loader/Loader'
 import ThrowError from '@components/ThrowError/ThrowError'
 import SearchField from '@components/SearchField/SearchField'
 
+interface AppProps {}
+
 interface AppState {
   cards: Product[]
   loadingCards: boolean
 }
 
-class App extends React.Component<{}, AppState> {
+class App extends React.Component<AppProps, AppState> {
   state: AppState = {
     cards: [],
     loadingCards: false,
+  }
+
+  saveSearchLS = (query: string | undefined) => {
+    if (!query) return
+    localStorage.setItem('userSearch', query)
   }
 
   fetchProductsData = async (query?: string) => {
@@ -24,11 +31,18 @@ class App extends React.Component<{}, AppState> {
       loadingCards: true,
     })
     try {
-      const result = await fetchData(query)
+      let result = await fetchData(query)
+
+      if (result && result.length <= 0) {
+        result = await fetchData()
+      }
+
       this.setState({
-        cards: result,
+        cards: result!,
         loadingCards: false,
       })
+
+      this.saveSearchLS(query)
     } catch (e) {
       this.setState({
         cards: [],
@@ -50,7 +64,6 @@ class App extends React.Component<{}, AppState> {
 
     return (
       <div className='container'>
-        <button onClick={() => this.fetchProductsData()}>ok fetch</button>
         <SearchField onSearch={this.handleSearch} />
         {loadingCards ? <Loader /> : <Cards cards={cards} />}
         <ThrowError />

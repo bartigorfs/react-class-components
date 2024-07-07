@@ -17,6 +17,15 @@ class SearchField extends React.PureComponent<SearchFieldProps, SearchFieldState
     userValidationRegEx: new RegExp(/^\S*$/),
   }
 
+  componentDidMount(): void {
+    const savedInput = localStorage.getItem('userSearch')
+    if (savedInput) {
+      this.setState({
+        userInput: savedInput,
+      })
+    }
+  }
+
   handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value
     if (this.state.userValidationRegEx.test(value)) {

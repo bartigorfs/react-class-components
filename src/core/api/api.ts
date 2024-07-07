@@ -1,10 +1,7 @@
 import { GetProductsResponse, Product } from './api.models'
 
-const apiThrottle = new Promise((resolve) =>
-  setTimeout(resolve, import.meta.env.VITE_API_THROTTLE_TIME),
-)
-
 const makeRequestUrl = (query: string | undefined) => {
+  console.log(query)
   if (query) {
     return `${import.meta.env.VITE_API_URL}products/search?q=${query}`
   }
@@ -12,6 +9,10 @@ const makeRequestUrl = (query: string | undefined) => {
 }
 
 export const fetchData = async (query?: string): Promise<Product[] | null> => {
+  const apiThrottle = new Promise((resolve) =>
+    setTimeout(resolve, import.meta.env.VITE_API_THROTTLE_TIME),
+  )
+
   try {
     let requestUrl: string = makeRequestUrl(query)
 

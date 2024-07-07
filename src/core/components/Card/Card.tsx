@@ -8,10 +8,6 @@ import { Product } from '@api/api.models'
 interface CardProps extends Pick<Product, 'images' | 'thumbnail' | 'title' | 'description'> {}
 
 class Card extends React.PureComponent<CardProps> {
-  constructor(props: CardProps) {
-    super(props)
-  }
-
   render(): ReactNode {
     return (
       <div className={styles.cardBox}>

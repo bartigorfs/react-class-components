@@ -9,11 +9,7 @@ interface CardsProps {
   cards: Product[]
 }
 
-class Cards extends React.Component<CardsProps> {
-  constructor(props: CardsProps) {
-    super(props)
-  }
-
+class Cards extends React.PureComponent<CardsProps> {
   render(): ReactNode {
     return (
       <div className={styles.box}>
