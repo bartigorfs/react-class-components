@@ -1,7 +1,6 @@
 import { GetProductsResponse, Product } from './api.models'
 
 const makeRequestUrl = (query: string | undefined) => {
-  console.log(query)
   if (query) {
     return `${import.meta.env.VITE_API_URL}products/search?q=${query}`
   }
