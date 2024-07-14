@@ -5,11 +5,11 @@ import ErrorBoundary from './ErrorBoundary.tsx'
 
 import './index.css'
 import Header from '@components/Header/Header.tsx'
-import DescribeErorr from '@components/DescribeError/DescribeError.tsx'
+import DescribeError from '@components/DescribeError/DescribeError.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   //  <React.StrictMode>
-  <ErrorBoundary fallback={<DescribeErorr />}>
+  <ErrorBoundary fallback={<DescribeError />}>
     <Header />
     <App />
   </ErrorBoundary>,

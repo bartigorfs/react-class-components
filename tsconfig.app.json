@@ -28,7 +28,8 @@
       "@assets/*": ["assets/*"],
       "@api/*": ["core/api/*"],
       "@utils/*": ["core/utils/*"]
-    }
+    },
+    "allowSyntheticDefaultImports": true
   },
   "include": ["src"]
 }
