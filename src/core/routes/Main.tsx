@@ -54,17 +54,20 @@ function Main() {
   }
 
   return (
-    <div className="container">
+    <div className='container'>
       <SearchField onSearch={handleSearch} />
-      {loadingCards ? <Loader />
-        : (<div className="nestedContainer">
+      {loadingCards ? (
+        <Loader />
+      ) : (
+        <div className='nestedContainer'>
           {/*<div className="containerElement">*/}
-            <Cards cards={cards} />
+          <Cards cards={cards} />
           {/*</div>*/}
           {/*<div className="containerElement">*/}
           {/*  <Outlet />*/}
           {/*</div>*/}
-        </div>)}
+        </div>
+      )}
       {cards.length > 0 && <Pagination totalItemsAmount={totalItems} />}
       <ThrowError />
     </div>

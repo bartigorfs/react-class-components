@@ -15,8 +15,8 @@ const router = createBrowserRouter([
         path: '/details/:detailId',
         element: <Card />,
         errorElement: <DescribeError />,
-      }
-    ]
+      },
+    ],
   },
   {
     path: '*',
