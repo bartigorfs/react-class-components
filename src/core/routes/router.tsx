@@ -6,15 +6,15 @@ import React from 'react'
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Main />,
     errorElement: <DescribeError />,
   },
   {
-    path: "*",
+    path: '*',
     element: <NotFound />,
     errorElement: <DescribeError />,
-  }
-]);
+  },
+])
 
-export default router;
+export default router

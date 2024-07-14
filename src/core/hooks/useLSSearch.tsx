@@ -1,15 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'
 
 function useLSSearch(key) {
-  const [search, setSearch] = useState(JSON.stringify(localStorage.getItem(key) || ''));
+  const [search, setSearch] = useState(JSON.stringify(localStorage.getItem(key) || ''))
 
   useEffect(() => {
     return () => {
-      localStorage.setItem(key, JSON.stringify(search));
-    };
-  }, [search, key]);
+      localStorage.setItem(key, JSON.stringify(search))
+    }
+  }, [search, key])
 
-  return [search, setSearch];
+  return [search, setSearch]
 }
 
-export default useLSSearch;
+export default useLSSearch

@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 
 function ThrowError() {
-  const [throwError, setThrowError] = useState(false);
+  const [throwError, setThrowError] = useState(false)
 
   const handleClick = () => {
-    setThrowError(true);
-  };
+    setThrowError(true)
+  }
 
   if (throwError) {
-    throw new Error("Yeah that's fits!");
+    throw new Error("Yeah that's fits!")
   }
 
   return (
@@ -16,7 +16,7 @@ function ThrowError() {
       <p>Call for a mother of virus</p>
       <button onClick={handleClick}>Ok, throw me some numbers</button>
     </div>
-  );
+  )
 }
 
-export default ThrowError;
+export default ThrowError

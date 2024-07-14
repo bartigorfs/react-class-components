@@ -14,6 +14,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <ErrorBoundary fallback={<DescribeError />}>
     <Header />
     <RouterProvider router={router} />
-  </ErrorBoundary>
+  </ErrorBoundary>,
   //  </React.StrictMode>,
 )

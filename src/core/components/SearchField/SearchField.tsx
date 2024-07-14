@@ -11,7 +11,6 @@ function SearchField(props: SearchFieldProps) {
   const [userInput, setUserInput] = useLSSearch<string>('userSearch')
   const userValidationRegEx: RegExp = new RegExp(/^\S*$/)
 
-
   const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value
     if (userValidationRegEx.test(value)) {
