@@ -41,12 +41,16 @@ function Main() {
   }, [])
 
   return (
-    <div className="container">
+    <div className='container'>
       <SearchField onSearch={handleSearch} />
-      {loadingCards ? <Loader /> : (<>
-        <Cards cards={cards} />
-        <Pagination  totalItemsAmount={10}/>
-      </>)}
+      {loadingCards ? (
+        <Loader />
+      ) : (
+        <>
+          <Cards cards={cards} />
+          <Pagination totalItemsAmount={10} />
+        </>
+      )}
       <ThrowError />
     </div>
   )
