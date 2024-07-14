@@ -12,15 +12,16 @@ function Cards(props: CardsProps) {
   return (
     <div className={styles.box}>
       {props.cards.length > 0 &&
-        props.cards.map((item: Product) => (
+        props.cards.map((item: Product) =>
           <Card
             key={item.id}
+            id={item.id}
             images={item.images}
             thumbnail={item.thumbnail}
             title={item.title}
             description={item.description}
-          />
-        ))}
+          />,
+        )}
     </div>
   )
 }

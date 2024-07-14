@@ -5,7 +5,7 @@ function useLSSearch(key: string) {
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      localStorage.setItem(key, search)
+      localStorage.setItem(key, search || '')
     }, 0)
 
     return () => clearTimeout(timeoutId)

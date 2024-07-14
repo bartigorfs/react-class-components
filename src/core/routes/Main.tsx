@@ -7,7 +7,7 @@ import Loader from '@components/Loader/Loader'
 import ThrowError from '@components/ThrowError/ThrowError'
 import SearchField from '@components/SearchField/SearchField'
 import Pagination from '@components/Pagination/Pagination'
-import { useSearchParams } from 'react-router-dom'
+import { Outlet, useSearchParams } from 'react-router-dom'
 
 function Main() {
   const [loadingCards, setLoadingCards] = useState<boolean>(true)
@@ -54,9 +54,17 @@ function Main() {
   }
 
   return (
-    <div className='container'>
+    <div className="container">
       <SearchField onSearch={handleSearch} />
-      {loadingCards ? <Loader /> : <Cards cards={cards} />}
+      {loadingCards ? <Loader />
+        : (<div className="nestedContainer">
+          {/*<div className="containerElement">*/}
+            <Cards cards={cards} />
+          {/*</div>*/}
+          {/*<div className="containerElement">*/}
+          {/*  <Outlet />*/}
+          {/*</div>*/}
+        </div>)}
       {cards.length > 0 && <Pagination totalItemsAmount={totalItems} />}
       <ThrowError />
     </div>

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import styles from './Pagination.module.css'
 import { useSearchParams } from 'react-router-dom'
 
