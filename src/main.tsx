@@ -1,17 +1,19 @@
 // import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
 import ErrorBoundary from './ErrorBoundary.tsx'
 
 import './index.css'
 import Header from '@components/Header/Header.tsx'
 import DescribeError from '@components/DescribeError/DescribeError.tsx'
+import { RouterProvider } from 'react-router-dom'
+import router from '@routes/router.tsx'
+import React from 'react'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   //  <React.StrictMode>
   <ErrorBoundary fallback={<DescribeError />}>
     <Header />
-    <App />
-  </ErrorBoundary>,
+    <RouterProvider router={router} />
+  </ErrorBoundary>
   //  </React.StrictMode>,
 )

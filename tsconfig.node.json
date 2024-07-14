@@ -12,7 +12,9 @@
     "paths": {
       "@utils/*": ["core/utils/*"],
       "@components/*": ["core/components/*"],
-      "@api/*": ["core/api/*"]
+      "@api/*": ["core/api/*"],
+      "@routes/*": ["core/routes/*"],
+      "@hooks/*": ["core/hooks/*"]
     }
   },
   "include": ["vite.config.ts"]

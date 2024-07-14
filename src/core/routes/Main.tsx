@@ -8,7 +8,7 @@ import Loader from '@components/Loader/Loader'
 import ThrowError from '@components/ThrowError/ThrowError'
 import SearchField from '@components/SearchField/SearchField'
 
-function App() {
+function Main() {
   const [loadingCards, setLoadingCards] = useState<boolean>(true)
   const [cards, setCards] = useState<Product[]>([])
 
@@ -43,7 +43,6 @@ function App() {
   }
 
   useEffect(() => {
-
     fetchProductsData()
   }, [])
 
@@ -56,4 +55,4 @@ function App() {
   )
 }
 
-export default App
+export default Main;
