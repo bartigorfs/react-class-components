@@ -50,3 +50,8 @@ export interface GetProductsResponse {
   skip: number
   total: number
 }
+
+export interface FetchProductsResponse {
+  products: Product[]
+  total: number
+}

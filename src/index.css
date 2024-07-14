@@ -54,7 +54,6 @@ button:focus-visible {
 .container {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   padding: 2rem;
 }
 

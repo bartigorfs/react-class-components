@@ -18,6 +18,11 @@
   border: 1px solid white;
 }
 
+.inactive {
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
 .paginationItem:not(.active):hover {
   border: 1px solid lightgray;
 }

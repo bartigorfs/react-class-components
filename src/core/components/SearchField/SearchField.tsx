@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import styles from './SearchField.module.css'
 import useLSSearch from '@hooks/useLSSearch.tsx'
@@ -11,10 +11,13 @@ function SearchField(props: SearchFieldProps) {
   const [userInput, setUserInput] = useLSSearch<string>('userSearch')
   const userValidationRegEx: RegExp = new RegExp(/^\S*$/)
 
+  useEffect(() => {
+    setUserInput(localStorage.getItem('userSearch'))
+  }, [setUserInput])
+
   const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value
     if (userValidationRegEx.test(value)) {
-      console.log(value)
       setUserInput(value)
     }
   }

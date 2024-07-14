@@ -1,5 +1,6 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import styles from './Pagination.module.css'
+import { useSearchParams } from 'react-router-dom'
 
 interface PaginationProps {
   totalItemsAmount: number
@@ -10,31 +11,33 @@ const getPageCount = (totalItemsAmount: number): number => {
 }
 
 function Pagination(props: PaginationProps) {
-  const [currentPage, setCurrentPage] = useState(1)
-  const [pageCount, setPageCount] = useState(getPageCount(props.totalItemsAmount))
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const [currentPage, setCurrentPage] = useState(Number(searchParams.get('page')) || 1)
+  const [pageCount] = useState(getPageCount(props.totalItemsAmount))
 
   const setActivePage = (buttonId: number) => {
-    console.log(buttonId)
     setCurrentPage(buttonId)
+    setSearchParams({ page: buttonId });
   }
 
-  const paginationItems = useMemo(() => {
+  const paginationItems: JSX.Element[] = useMemo(() => {
     return Array.from({ length: pageCount }, (_, i) => (
       <div
-        key={i}
-        onClick={() => setActivePage(i)}
-        className={`${styles.paginationItem} ${currentPage === i ? styles.active : ''}`}
+        key={i + 1}
+        onClick={() => setActivePage(i + 1)}
+        className={`${styles.paginationItem} ${currentPage === i + 1 ? styles.active : ''}`}
       >
         {i + 1}
       </div>
     ))
-  }, [pageCount, currentPage])
+  }, [pageCount, props, currentPage])
 
   return (
     <div className={styles.container}>
-      <div className={styles.paginationItem}>{'<'}</div>
-      {paginationItems.map((item) => item)}
-      <div className={styles.paginationItem}>{'>'}</div>
+      <div className={`${styles.paginationItem} ${currentPage <= 0 && styles.inactive}`} onClick={() => setActivePage(currentPage - 1)}>{'<'}</div>
+      {paginationItems.map((item: JSX.Element) => item)}
+      <div className={`${styles.paginationItem} ${currentPage === pageCount && styles.inactive}`} onClick={() => setActivePage(currentPage + 1)}>{'>'}</div>
     </div>
   )
 }
