@@ -11,14 +11,14 @@ const getPageCount = (totalItemsAmount: number): number => {
 }
 
 function Pagination(props: PaginationProps) {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams()
 
   const [currentPage, setCurrentPage] = useState(Number(searchParams.get('page')) || 1)
   const [pageCount] = useState(getPageCount(props.totalItemsAmount))
 
   const setActivePage = (buttonId: number) => {
     setCurrentPage(buttonId)
-    setSearchParams({ page: buttonId });
+    setSearchParams({ page: buttonId })
   }
 
   const paginationItems: JSX.Element[] = useMemo(() => {
@@ -35,9 +35,19 @@ function Pagination(props: PaginationProps) {
 
   return (
     <div className={styles.container}>
-      <div className={`${styles.paginationItem} ${currentPage <= 0 && styles.inactive}`} onClick={() => setActivePage(currentPage - 1)}>{'<'}</div>
+      <div
+        className={`${styles.paginationItem} ${currentPage <= 0 && styles.inactive}`}
+        onClick={() => setActivePage(currentPage - 1)}
+      >
+        {'<'}
+      </div>
       {paginationItems.map((item: JSX.Element) => item)}
-      <div className={`${styles.paginationItem} ${currentPage === pageCount && styles.inactive}`} onClick={() => setActivePage(currentPage + 1)}>{'>'}</div>
+      <div
+        className={`${styles.paginationItem} ${currentPage === pageCount && styles.inactive}`}
+        onClick={() => setActivePage(currentPage + 1)}
+      >
+        {'>'}
+      </div>
     </div>
   )
 }
