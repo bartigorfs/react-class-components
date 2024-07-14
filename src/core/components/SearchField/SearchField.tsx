@@ -14,6 +14,7 @@ function SearchField(props: SearchFieldProps) {
   const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value
     if (userValidationRegEx.test(value)) {
+      console.log(value)
       setUserInput(value)
     }
   }

@@ -7,15 +7,11 @@ import Cards from '@components/Cards/Cards'
 import Loader from '@components/Loader/Loader'
 import ThrowError from '@components/ThrowError/ThrowError'
 import SearchField from '@components/SearchField/SearchField'
+import Pagination from '@components/Pagination/Pagination.tsx'
 
 function Main() {
   const [loadingCards, setLoadingCards] = useState<boolean>(true)
   const [cards, setCards] = useState<Product[]>([])
-
-  const saveSearchLS = (query: string | undefined) => {
-    if (!query) return
-    localStorage.setItem('userSearch', query)
-  }
 
   const fetchProductsData = async (query?: string) => {
     setCards([])
@@ -30,8 +26,6 @@ function Main() {
 
       setCards(result)
       setLoadingCards(false)
-
-      saveSearchLS(query)
     } catch (e) {
       setCards([])
       setLoadingCards(false)
@@ -47,9 +41,12 @@ function Main() {
   }, [])
 
   return (
-    <div className='container'>
+    <div className="container">
       <SearchField onSearch={handleSearch} />
-      {loadingCards ? <Loader /> : <Cards cards={cards} />}
+      {loadingCards ? <Loader /> : (<>
+        <Cards cards={cards} />
+        <Pagination  totalItemsAmount={10}/>
+      </>)}
       <ThrowError />
     </div>
   )

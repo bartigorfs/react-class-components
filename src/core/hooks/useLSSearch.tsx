@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
 
-function useLSSearch(key) {
-  const [search, setSearch] = useState(JSON.stringify(localStorage.getItem(key) || ''))
+function useLSSearch(key: string) {
+  const [search, setSearch] = useState(localStorage.getItem(key) || '')
 
   useEffect(() => {
     return () => {
-      localStorage.setItem(key, JSON.stringify(search))
+      localStorage.setItem(key, search)
     }
   }, [search, key])
 

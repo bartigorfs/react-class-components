@@ -1,0 +1,23 @@
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    padding-top: 3rem;
+}
+
+.paginationItem{
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    border: 1px solid gray;
+    cursor: pointer;
+}
+
+.active {
+    border: 1px solid white;
+}
+
+.paginationItem:not(.active):hover{
+    border: 1px solid lightgray;
+}
