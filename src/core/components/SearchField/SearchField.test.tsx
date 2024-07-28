@@ -3,16 +3,18 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import SearchField from './SearchField'
-import useLSSearch from '@hooks/useLSSearch/useLSSearch.tsx'
+import useLSSearch from '@hooks/useLSSearch/useLSSearch'
 
-vi.mock('@hooks/useLSSearch')
+vi.mock('@hooks/useLSSearch', () => ({
+  default: vi.fn(),
+}))
 
 describe('SearchField component', () => {
   const mockSetUserInput = vi.fn()
 
   beforeEach(() => {
     vi.clearAllMocks()
-    ;(useLSSearch as jest.Mock).mockReturnValue(['', mockSetUserInput])
+    ;(useLSSearch as unknown as jest.Mock).mockReturnValue(['', mockSetUserInput])
   })
 
   it('renders correctly', () => {
@@ -36,7 +38,7 @@ describe('SearchField component', () => {
   })
 
   it('calls onSearch with the correct input value', () => {
-    ;(useLSSearch as jest.Mock).mockReturnValue(['test', mockSetUserInput])
+    ;(useLSSearch as unknown as jest.Mock).mockReturnValue(['test', mockSetUserInput])
 
     const mockOnSearch = vi.fn()
     render(<SearchField onSearch={mockOnSearch} />)

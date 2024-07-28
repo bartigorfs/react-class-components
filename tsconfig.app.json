@@ -31,7 +31,8 @@
       "@routes/*": ["core/routes/*"],
       "@hooks/*": ["core/hooks/*"],
       "@ctx/*": ["core/ctx/*"],
-      "@providers/*": ["core/providers/*"]
+      "@providers/*": ["core/providers/*"],
+      "@store/*": ["core/store/*"]
     },
     "allowSyntheticDefaultImports": true
   },
