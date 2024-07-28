@@ -16,8 +16,6 @@ interface CardProps {
   description?: string
 }
 
-export default Card
-
 function Card(props: CardProps) {
   const [loading, setLoading] = useState(false)
   const { detailId } = useParams()
@@ -41,20 +39,25 @@ function Card(props: CardProps) {
 
     try {
       setLoading(true)
-      const data = await getElementInfo(id)
-      setCardImage(data?.images[0])
-      setCardTumbnail(data?.thumbnail)
-      setCardTitle(data?.title)
-      setCardDescription(data?.description)
-      setShowClose(true)
-      setLoading(false)
+      const data: Product | null = await getElementInfo(id)
+      if (data) {
+        setCardImage(data?.images[0])
+        setCardTumbnail(data?.thumbnail)
+        setCardTitle(data?.title)
+        setCardDescription(data?.description)
+        setShowClose(true)
+      } else {
+        handleCloseComponent()
+      }
     } catch (e) {
       console.error(e)
+      setLoading(false)
+    } finally {
       setLoading(false)
     }
   }
 
-  const handleCardClick = (id: number | undefined) => {
+  const handleCardClick = () => {
     if (showClose) return
     navigate(`/details/${props.id}${window.location.search}`)
   }
@@ -64,7 +67,7 @@ function Card(props: CardProps) {
   }
 
   const displayCard = () => (
-    <div className={styles.cardBox} onClick={showClose ? null : () => handleCardClick(props.id)}>
+    <div className={styles.cardBox} onClick={showClose ? null : () => handleCardClick()}>
       <LazyLoadImage
         alt={'Image'}
         height={'200'}
@@ -93,3 +96,5 @@ function Card(props: CardProps) {
 
   return loading ? displayLoading() : displayCard()
 }
+
+export default Card
