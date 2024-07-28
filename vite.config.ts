@@ -16,4 +16,15 @@ export default defineConfig({
       '@hooks': path.resolve(__dirname, './src/core/hooks'),
     },
   },
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: ['./src/setupTesting.ts'],
+    mockReset: true,
+    testTimeout: 1000,
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+    },
+  },
 })

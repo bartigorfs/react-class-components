@@ -43,7 +43,7 @@ function Pagination(props: PaginationProps) {
       </div>
       {paginationItems.map((item: JSX.Element) => item)}
       <div
-        className={`${styles.paginationItem} ${currentPage === pageCount && styles.inactive}`}
+        className={`${styles.paginationItem} ${currentPage >= pageCount ? styles.inactive : ''}`}
         onClick={() => setActivePage(currentPage + 1)}
       >
         {'>'}

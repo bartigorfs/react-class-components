@@ -7,14 +7,17 @@ import Loader from '@components/Loader/Loader'
 import ThrowError from '@components/ThrowError/ThrowError'
 import SearchField from '@components/SearchField/SearchField'
 import Pagination from '@components/Pagination/Pagination'
-import { Outlet, useSearchParams } from 'react-router-dom'
+import { Outlet, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
 function Main() {
   const [loadingCards, setLoadingCards] = useState<boolean>(true)
   const [cards, setCards] = useState<Product[]>([])
   const [totalItems, setTotalItem] = useState<number>(0)
   const [searchParams, setSearchParams] = useSearchParams()
+  const location = useLocation()
+  const navigate = useNavigate()
 
+  const isDetailPage = location.pathname.startsWith('/details/')
   const page = Number(searchParams.get('page')) || 1
 
   const fetchProductsData = useCallback(async (query: string, page: number) => {
@@ -53,6 +56,10 @@ function Main() {
     fetchProductsData(query || '', 1)
   }
 
+  const closeNestedElement = () => {
+    if (isDetailPage) navigate(`/${window.location.search}`)
+  }
+
   return (
     <div className='container'>
       <SearchField onSearch={handleSearch} />
@@ -60,12 +67,14 @@ function Main() {
         <Loader />
       ) : (
         <div className='nestedContainer'>
-          {/*<div className="containerElement">*/}
-          <Cards cards={cards} />
-          {/*</div>*/}
-          {/*<div className="containerElement">*/}
-          {/*  <Outlet />*/}
-          {/*</div>*/}
+          <div onClick={closeNestedElement} className='containerElement'>
+            <Cards cards={cards} />
+          </div>
+          {isDetailPage && (
+            <div className='containerElement'>
+              <Outlet />
+            </div>
+          )}
         </div>
       )}
       {cards.length > 0 && <Pagination totalItemsAmount={totalItems} />}

@@ -3,10 +3,15 @@ import React from 'react'
 import loader from '@assets/loader.gif'
 import styles from './Loader.module.css'
 
-function Loader() {
+interface LoaderProps {
+  width?: number
+  height?: number
+}
+
+function Loader(props: LoaderProps) {
   return (
     <div className={styles.container}>
-      <img src={loader} alt='Loading...'></img>
+      <img width={props.width} height={props.height} src={loader} alt='Loading...'></img>
     </div>
   )
 }
