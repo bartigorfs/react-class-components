@@ -24,3 +24,9 @@
 .cardTextBox .title {
   font-weight: bold;
 }
+
+.buttonContainer{
+  display: flex;
+  padding: 1em;
+  justify-content: center;
+}
