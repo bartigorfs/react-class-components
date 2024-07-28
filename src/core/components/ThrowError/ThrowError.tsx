@@ -1,30 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-interface ThrowErrorProps {}
+function ThrowError() {
+  const [throwError, setThrowError] = useState(false)
 
-interface ThrowErrorState {
-  throwError: boolean
-}
-
-class ThrowError extends React.Component<ThrowErrorProps, ThrowErrorState> {
-  state = { throwError: false }
-
-  handleClick = () => {
-    this.setState({ throwError: true })
+  const handleClick = () => {
+    setThrowError(true)
   }
 
-  render() {
-    if (this.state.throwError) {
-      throw new Error("Yeah that's fits!")
-    }
-
-    return (
-      <div>
-        <p>Call for a mother of virus</p>
-        <button onClick={this.handleClick}>Ok, throw me some numbers</button>
-      </div>
-    )
+  if (throwError) {
+    throw new Error("Yeah that's fits!")
   }
+
+  return (
+    <div>
+      <p>Call for a mother of virus</p>
+      <button onClick={handleClick}>Ok, throw me some numbers</button>
+    </div>
+  )
 }
 
 export default ThrowError

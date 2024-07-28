@@ -27,8 +27,11 @@
       "@components/*": ["core/components/*"],
       "@assets/*": ["assets/*"],
       "@api/*": ["core/api/*"],
-      "@utils/*": ["core/utils/*"]
-    }
+      "@utils/*": ["core/utils/*"],
+      "@routes/*": ["core/routes/*"],
+      "@hooks/*": ["core/hooks/*"]
+    },
+    "allowSyntheticDefaultImports": true
   },
   "include": ["src"]
 }

@@ -1,52 +1,37 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import styles from './SearchField.module.css'
+import useLSSearch from '@hooks/useLSSearch.tsx'
 
 interface SearchFieldProps {
   onSearch: (query: string) => void
 }
 
-interface SearchFieldState {
-  userInput: string
-  userValidationRegEx: RegExp
-}
+function SearchField(props: SearchFieldProps) {
+  const [userInput, setUserInput] = useLSSearch<string>('userSearch')
+  const userValidationRegEx: RegExp = new RegExp(/^\S*$/)
 
-class SearchField extends React.PureComponent<SearchFieldProps, SearchFieldState> {
-  state = {
-    userInput: '',
-    userValidationRegEx: new RegExp(/^\S*$/),
-  }
+  useEffect(() => {
+    setUserInput(localStorage.getItem('userSearch'))
+  }, [setUserInput])
 
-  componentDidMount(): void {
-    const savedInput = localStorage.getItem('userSearch')
-    if (savedInput) {
-      this.setState({
-        userInput: savedInput,
-      })
-    }
-  }
-
-  handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value
-    if (this.state.userValidationRegEx.test(value)) {
-      this.setState({
-        userInput: value,
-      })
+    if (userValidationRegEx.test(value)) {
+      setUserInput(value)
     }
   }
 
-  handleSearch = () => {
-    this.props.onSearch(this.state.userInput)
+  const handleSearch = () => {
+    props.onSearch(userInput)
   }
 
-  render(): React.ReactNode {
-    return (
-      <div className={styles.searchContainer}>
-        <input value={this.state.userInput} onChange={this.handleSearchInputChange} />
-        <button onClick={this.handleSearch}>Search</button>
-      </div>
-    )
-  }
+  return (
+    <div className={styles.searchContainer}>
+      <input value={userInput} onChange={handleSearchInputChange} />
+      <button onClick={handleSearch}>Search</button>
+    </div>
+  )
 }
 
 export default SearchField
