@@ -14,8 +14,8 @@ function Main() {
   const [cards, setCards] = useState<Product[]>([])
   const [totalItems, setTotalItem] = useState<number>(0)
   const [searchParams, setSearchParams] = useSearchParams()
-  const location = useLocation();
-  const navigate = useNavigate();
+  const location = useLocation()
+  const navigate = useNavigate()
 
   const isDetailPage = location.pathname.startsWith('/details/')
   const page = Number(searchParams.get('page')) || 1
@@ -57,21 +57,21 @@ function Main() {
   }
 
   const closeNestedElement = () => {
-    if (isDetailPage) navigate(`/${window.location.search}`);
+    if (isDetailPage) navigate(`/${window.location.search}`)
   }
 
   return (
-    <div className="container">
+    <div className='container'>
       <SearchField onSearch={handleSearch} />
       {loadingCards ? (
         <Loader />
       ) : (
-        <div className="nestedContainer">
-          <div onClick={closeNestedElement} className="containerElement">
+        <div className='nestedContainer'>
+          <div onClick={closeNestedElement} className='containerElement'>
             <Cards cards={cards} />
           </div>
           {isDetailPage && (
-            <div className="containerElement">
+            <div className='containerElement'>
               <Outlet />
             </div>
           )}

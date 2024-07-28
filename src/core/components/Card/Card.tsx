@@ -60,7 +60,7 @@ function Card(props: CardProps) {
   }
 
   const handleCloseComponent = () => {
-    navigate(`/${window.location.search}` )
+    navigate(`/${window.location.search}`)
   }
 
   const displayCard = () => (
@@ -70,16 +70,18 @@ function Card(props: CardProps) {
         height={'200'}
         src={cardImage ? cardImage : props?.images?.length > 0 ? props?.images[0] : noimage}
         placeholderSrc={cardTumbnail ? cardTumbnail : props.thumbnail}
-        effect="blur"
+        effect='blur'
         width={'200'}
       ></LazyLoadImage>
       <div className={styles.cardTextBox}>
-        <div className="bold">{cardTitle ? cardTitle : props.title}</div>
+        <div className='bold'>{cardTitle ? cardTitle : props.title}</div>
         <div>{cardDescription ? cardDescription : props.description}</div>
       </div>
-      {showClose && (<div className={styles.buttonContainer}>
-        <button onClick={handleCloseComponent}>Close</button>
-      </div>)}
+      {showClose && (
+        <div className={styles.buttonContainer}>
+          <button onClick={handleCloseComponent}>Close</button>
+        </div>
+      )}
     </div>
   )
 
