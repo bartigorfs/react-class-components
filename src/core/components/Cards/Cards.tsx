@@ -10,7 +10,7 @@ interface CardsProps {
 
 function Cards(props: CardsProps) {
   return (
-    <div className={styles.box}>
+    <div data-testid='cards-container' className={styles.box}>
       {props.cards.length > 0 &&
         props.cards.map((item: Product) => (
           <Card

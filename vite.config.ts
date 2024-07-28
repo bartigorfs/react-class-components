@@ -19,7 +19,7 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
-    setupFiles: './src/setupTesting.ts',
+    setupFiles: ['./src/setupTesting.ts'],
     mockReset: true,
     testTimeout: 1000,
     coverage: {
