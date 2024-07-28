@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { FetchProductsResponse, GetProductsResponse, Product } from './api.models'
+import { FetchProductsResponse, Product } from './api.models.ts'
 
 const apiUrl = import.meta.env.VITE_API_URL
 const productsMaxCount = import.meta.env.VITE_API_PRODUCTS_MAX_COUNT

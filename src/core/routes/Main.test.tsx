@@ -1,13 +1,8 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { MemoryRouter } from 'react-router-dom'
 import Main from './Main'
 import { useFetchProductsQuery } from '@store/slices/products.slice.tsx'
-import SearchField from '@components/SearchField/SearchField'
-import Loader from '@components/Loader/Loader'
-import Cards from '@components/Cards/Cards'
-import Pagination from '@components/Pagination/Pagination'
-import ThrowError from '@components/ThrowError/ThrowError'
 
 // Мокаем необходимые модули и компоненты
 vi.mock('@store/slices/products.slice.tsx', () => ({
@@ -42,11 +37,8 @@ vi.mock('@components/ThrowError/ThrowError', () => ({
 }))
 
 describe('Main Component', () => {
-  const mockSetSearchParams = vi.fn()
-  const mockNavigate = vi.fn()
-
   beforeEach(() => {
-    ;(useFetchProductsQuery as vi.Mock).mockImplementation(({ query, page }) => ({
+    ;(useFetchProductsQuery as vi.Mock).mockImplementation(() => ({
       data: {
         products: [{ id: 1, name: 'Product' }],
         total: 10,

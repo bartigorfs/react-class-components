@@ -4,9 +4,10 @@ import { LazyLoadImage } from 'react-lazy-load-image-component'
 import noimage from '@assets/nothing.gif'
 
 import styles from './Card.module.css'
-import { c } from 'vite/dist/node/types.d-aGj9QkWt'
 import { useNavigate } from 'react-router-dom'
 import { useTheme } from '@hooks/useTheme/useTheme.tsx'
+import Checkbox from '@components/Checkbox/Checkbox.tsx'
+import { addSelectedId, removeSelectedId } from '@store/actions/products.actions.ts'
 
 interface CardProps {
   id?: number
@@ -27,23 +28,36 @@ function Card(props: CardProps) {
     navigate(`/details/${props.id}${window.location.search}`)
   }
 
+  const handleCheckboxClick = (event: React.MouseEvent<HTMLInputElement>) => {
+    event.stopPropagation()
+  }
+
+  const handleOnChange = (value: boolean) => {
+    if (value) {
+      dispatch(addSelectedId(props.id))
+    } else {
+      dispatch(removeSelectedId(props.id))
+    }
+  }
+
   return (
-    <div
-      onClick={props.ignoreCardClick ? null : () => handleCardClick()}
-      key={props.id}
-      className={styles.cardBox}
-      data-theme={theme}
-    >
-      {props.topElement}
+    <div key={props.id} className={styles.cardBox} data-theme={theme}>
+      {!props.ignoreCardClick && (
+        <Checkbox label={'Select'} onChange={handleOnChange} onClick={() => handleCheckboxClick} />
+      )}
       <LazyLoadImage
         alt={'Image'}
+        onClick={props.ignoreCardClick ? null : () => handleCardClick()}
         height={'200'}
         src={props?.images?.length > 0 ? props?.images[0] : noimage}
         placeholderSrc={props.thumbnail}
         effect='blur'
         width={'200'}
       ></LazyLoadImage>
-      <div className={styles.cardTextBox}>
+      <div
+        onClick={props.ignoreCardClick ? null : () => handleCardClick()}
+        className={styles.cardTextBox}
+      >
         <div className='bold'>{props.title}</div>
         <div>{props.description}</div>
       </div>

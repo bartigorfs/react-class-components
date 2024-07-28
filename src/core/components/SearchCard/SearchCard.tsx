@@ -18,6 +18,10 @@ function SearchCard() {
     setSearchId(detailId)
   }, [detailId])
 
+  useEffect(() => {
+    console.warn(error)
+  }, [error])
+
   const navigate = useNavigate()
 
   const handleCloseComponent = () => {

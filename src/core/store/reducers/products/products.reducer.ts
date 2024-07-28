@@ -1,13 +1,22 @@
 import { IProductsReducer } from '@store/reducers/products/products.model.ts'
+import { ADD_SELECTED_ID, REMOVE_SELECTED_ID } from '@store/actions/products.actions.ts'
 
 const initialState: IProductsReducer = {
-  count: 0,
+  selectedIds: [],
 }
 
 export const productsReducer = (state: IProductsReducer = initialState, action) => {
   switch (action.type) {
-    case 'INCREMENT':
-      return { count: state.count + 1 }
+    case ADD_SELECTED_ID:
+      return {
+        ...state,
+        selectedIds: [...state.selectedIds, action.payload],
+      }
+    case REMOVE_SELECTED_ID:
+      return {
+        ...state,
+        selectedIds: state.selectedIds.filter((item) => item !== action.payload),
+      }
     default:
       return state
   }
