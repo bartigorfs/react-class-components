@@ -7,6 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import Loader from '@components/Loader/Loader.tsx'
 import { Product } from '@api/api.models.ts'
 import { getElementInfo } from '@api/api.ts'
+import { useTheme } from '@hooks/useTheme/useTheme.tsx'
 
 interface CardProps {
   id?: number
@@ -17,6 +18,8 @@ interface CardProps {
 }
 
 function Card(props: CardProps) {
+  const { theme } = useTheme()
+
   const [loading, setLoading] = useState(false)
   const { detailId } = useParams()
 
@@ -67,7 +70,11 @@ function Card(props: CardProps) {
   }
 
   const displayCard = () => (
-    <div className={styles.cardBox} onClick={showClose ? null : () => handleCardClick()}>
+    <div
+      className={styles.cardBox}
+      onClick={showClose ? null : () => handleCardClick()}
+      data-theme={theme}
+    >
       <LazyLoadImage
         alt={'Image'}
         height={'200'}

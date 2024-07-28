@@ -18,6 +18,10 @@
   border: 1px solid white;
 }
 
+.active[data-theme='light'] {
+  border: 1px solid var(--color-button-border-hover);
+}
+
 .inactive {
   pointer-events: none;
   cursor: not-allowed;
@@ -25,4 +29,7 @@
 
 .paginationItem:not(.active):hover {
   border: 1px solid lightgray;
+}
+.paginationItem:not(.active):hover[data-theme='light'] {
+  border: 1px solid var(--color-button-bg);
 }

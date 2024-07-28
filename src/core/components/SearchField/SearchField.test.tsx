@@ -3,7 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import SearchField from './SearchField'
-import useLSSearch from '@hooks/useLSSearch'
+import useLSSearch from '@hooks/useLSSearch/useLSSearch.tsx'
 
 vi.mock('@hooks/useLSSearch')
 

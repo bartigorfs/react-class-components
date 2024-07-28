@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import styles from './Pagination.module.css'
 import { useSearchParams } from 'react-router-dom'
+import { useTheme } from '@hooks/useTheme/useTheme.tsx'
 
 interface PaginationProps {
   totalItemsAmount: number
@@ -11,6 +12,7 @@ const getPageCount = (totalItemsAmount: number): number => {
 }
 
 function Pagination(props: PaginationProps) {
+  const { theme } = useTheme()
   const [searchParams, setSearchParams] = useSearchParams()
 
   const [currentPage, setCurrentPage] = useState(Number(searchParams.get('page')) || 1)
@@ -26,6 +28,7 @@ function Pagination(props: PaginationProps) {
       <div
         key={i + 1}
         onClick={() => setActivePage(i + 1)}
+        data-theme={theme}
         className={`${styles.paginationItem} ${currentPage === i + 1 ? styles.active : ''}`}
       >
         {i + 1}
@@ -38,6 +41,7 @@ function Pagination(props: PaginationProps) {
       <div
         className={`${styles.paginationItem} ${currentPage <= 0 && styles.inactive}`}
         onClick={() => setActivePage(currentPage - 1)}
+        data-theme={theme}
       >
         {'<'}
       </div>
@@ -45,6 +49,7 @@ function Pagination(props: PaginationProps) {
       <div
         className={`${styles.paginationItem} ${currentPage >= pageCount ? styles.inactive : ''}`}
         onClick={() => setActivePage(currentPage + 1)}
+        data-theme={theme}
       >
         {'>'}
       </div>

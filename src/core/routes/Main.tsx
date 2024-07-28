@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { fetchData } from '@api/api'
 import { FetchProductsResponse, Product } from '@api/api.models'
 
@@ -8,6 +8,7 @@ import ThrowError from '@components/ThrowError/ThrowError'
 import SearchField from '@components/SearchField/SearchField'
 import Pagination from '@components/Pagination/Pagination'
 import { Outlet, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import { ThemeContext } from '../ctx/themeCtx.tsx'
 
 function Main() {
   const [loadingCards, setLoadingCards] = useState<boolean>(true)
@@ -16,6 +17,12 @@ function Main() {
   const [searchParams, setSearchParams] = useSearchParams()
   const location = useLocation()
   const navigate = useNavigate()
+
+  const theme = useContext(ThemeContext)
+
+  useEffect(() => {
+    console.log(theme)
+  }, [theme])
 
   const isDetailPage = location.pathname.startsWith('/details/')
   const page = Number(searchParams.get('page')) || 1

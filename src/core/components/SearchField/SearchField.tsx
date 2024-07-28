@@ -1,13 +1,16 @@
 import React, { useEffect } from 'react'
 
 import styles from './SearchField.module.css'
-import useLSSearch from '@hooks/useLSSearch.tsx'
+import useLSSearch from '@hooks/useLSSearch/useLSSearch.tsx'
+import { useTheme } from '@hooks/useTheme/useTheme.tsx'
 
 interface SearchFieldProps {
   onSearch: (query: string) => void
 }
 
 function SearchField(props: SearchFieldProps) {
+  const { theme } = useTheme()
+
   const [userInput, setUserInput] = useLSSearch<string>('userSearch')
   const userValidationRegEx: RegExp = new RegExp(/^\S*$/)
 
@@ -27,7 +30,7 @@ function SearchField(props: SearchFieldProps) {
   }
 
   return (
-    <div className={styles.searchContainer}>
+    <div className={styles.searchContainer} data-theme={theme}>
       <input value={userInput} onChange={handleSearchInputChange} />
       <button onClick={handleSearch}>Search</button>
     </div>

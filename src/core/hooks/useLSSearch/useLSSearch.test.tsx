@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks'
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import useLSSearch from './useLSSearch'
+import useLSSearch from './useLSSearch.tsx'
 import { act } from 'react'
 
 describe('useLSSearch hook', () => {
