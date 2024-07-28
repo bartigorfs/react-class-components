@@ -30,7 +30,7 @@ function SearchField(props: SearchFieldProps) {
   }
 
   return (
-    <div className={styles.searchContainer} data-theme={theme}>
+    <div data-testid='search-input' className={styles.searchContainer} data-theme={theme}>
       <input value={userInput} onChange={handleSearchInputChange} />
       <button onClick={handleSearch}>Search</button>
     </div>

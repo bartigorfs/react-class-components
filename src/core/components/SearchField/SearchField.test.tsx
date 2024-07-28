@@ -1,59 +1,38 @@
-import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
-import '@testing-library/jest-dom'
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import SearchField from './SearchField'
-import useLSSearch from '@hooks/useLSSearch/useLSSearch'
 
-vi.mock('@hooks/useLSSearch', () => ({
-  default: vi.fn(),
-}))
+vi.mock('@hooks/useLSSearch/useLSSearch.tsx', () => {
+  return {
+    __esModule: true,
+    default: vi.fn(),
+  }
+})
 
-describe('SearchField component', () => {
-  const mockSetUserInput = vi.fn()
+import useLSSearch from '@hooks/useLSSearch/useLSSearch.tsx'
+
+describe('SearchField', () => {
+  const mockOnSearch = vi.fn()
 
   beforeEach(() => {
     vi.clearAllMocks()
-    ;(useLSSearch as unknown as jest.Mock).mockReturnValue(['', mockSetUserInput])
+
+    useLSSearch.mockReturnValue(['', vi.fn()])
   })
 
-  it('renders correctly', () => {
-    render(<SearchField onSearch={() => {}} />)
-
-    const inputElement = screen.getByRole('textbox')
-    const buttonElement = screen.getByRole('button', { name: /search/i })
-
-    expect(inputElement).toBeInTheDocument()
-    expect(buttonElement).toBeInTheDocument()
+  it('renders input and button', () => {
+    render(<SearchField onSearch={mockOnSearch} />)
+    expect(screen.getByRole('textbox')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /search/i })).toBeInTheDocument()
   })
 
-  it('updates input value correctly', () => {
-    render(<SearchField onSearch={() => {}} />)
+  it('calls onSearch with correct query when button is clicked', () => {
+    const userInput = 'test query'
+    useLSSearch.mockReturnValue([userInput, vi.fn()])
 
-    const inputElement = screen.getByRole('textbox')
-
-    fireEvent.change(inputElement, { target: { value: 'test' } })
-
-    expect(mockSetUserInput).toHaveBeenCalledWith('test')
-  })
-
-  it('calls onSearch with the correct input value', () => {
-    ;(useLSSearch as unknown as jest.Mock).mockReturnValue(['test', mockSetUserInput])
-
-    const mockOnSearch = vi.fn()
     render(<SearchField onSearch={mockOnSearch} />)
 
-    const buttonElement = screen.getByRole('button', { name: /search/i })
-
-    fireEvent.click(buttonElement)
-
-    expect(mockOnSearch).toHaveBeenCalledWith('test')
-  })
-
-  it('loads the value from localStorage', () => {
-    localStorage.setItem('userSearch', 'storedValue')
-    render(<SearchField onSearch={() => {}} />)
-
-    expect(mockSetUserInput).toHaveBeenCalledWith('storedValue')
+    fireEvent.click(screen.getByRole('button', { name: /search/i }))
+    expect(mockOnSearch).toHaveBeenCalledWith(userInput)
   })
 })

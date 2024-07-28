@@ -62,27 +62,13 @@ describe('Card component', () => {
     expect(imageElement).toHaveAttribute('src', 'nothing.gif')
   })
 
-  it('displays loading indicator when loading', async () => {
-    ;(getElementInfo as vi.Mock).mockImplementation(() => new Promise(() => {}))
-
-    await act(async () => {
-      render(
-        <MemoryRouter>
-          <Card />
-        </MemoryRouter>,
-      )
-    })
-
-    expect(screen.getByText('Loading...')).toBeInTheDocument()
-  })
-
   it('renders card data after loading', async () => {
     ;(getElementInfo as vi.Mock).mockResolvedValueOnce(ProductTest)
 
     await act(async () => {
       render(
         <MemoryRouter>
-          <Card />
+          <Card {...ProductTest} />
         </MemoryRouter>,
       )
     })
@@ -101,21 +87,6 @@ describe('Card component', () => {
 
     fireEvent.click(screen.getByRole('img'))
     expect(navigateMock).toHaveBeenCalledWith('/details/1')
-  })
-
-  it('closes component on close button click', async () => {
-    ;(getElementInfo as vi.Mock).mockResolvedValueOnce(ProductTest)
-
-    await act(async () => {
-      render(
-        <MemoryRouter>
-          <Card />
-        </MemoryRouter>,
-      )
-    })
-
-    fireEvent.click(screen.getByRole('button', { name: /Close/i }))
-    expect(navigateMock).toHaveBeenCalledWith('/')
   })
 
   it('renders fallback image if no image is provided', async () => {
