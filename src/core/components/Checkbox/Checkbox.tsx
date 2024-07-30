@@ -10,7 +10,7 @@ export interface CheckboxProps {
 export default function Checkbox(props: CheckboxProps): JSX.Element {
   const [checked, setChecked] = useState(false)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = () => {
     setChecked((prev) => !prev)
     if (props.onChange) {
       props.onChange(!checked)
