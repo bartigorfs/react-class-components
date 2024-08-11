@@ -5,6 +5,7 @@ import { describe, it, expect, vi } from 'vitest'
 import Cards from './Cards'
 import Card from '@components/Card/Card'
 import { ProductsTestArray } from '../../../tests/mockData.ts'
+import { Product } from '@api/api.models.ts'
 
 vi.mock('@components/Card/Card', () => ({
   __esModule: true,
@@ -24,28 +25,12 @@ describe('Cards component', () => {
     expect(screen.getByTestId('cards-container')).toBeInTheDocument()
   })
 
-  //Fucking buggy shit
-  // it('displays the correct number of Card components', async () => {
-  //   render(<Cards cards={ProductsTestArray} />);
-  //
-  //   await waitFor(() => {
-  //     const cardsContainer = screen.getByTestId('cards-container');
-  //     const cardElements = cardsContainer.children;
-  //
-  //     expect(Array.from(cardElements).length).toBeGreaterThanOrEqual(ProductsTestArray.length);
-  //   });
-  // });
-
   it('passes correct props to Card components', () => {
     render(<Cards cards={ProductsTestArray} />)
-    ProductsTestArray.forEach((product) => {
+    ProductsTestArray.forEach((product: Product) => {
       expect(Card).toHaveBeenCalledWith(
         expect.objectContaining({
-          id: product.id,
-          images: product.images,
-          thumbnail: product.thumbnail,
-          title: product.title,
-          description: product.description,
+          product: product,
         }),
         {},
       )

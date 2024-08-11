@@ -14,7 +14,10 @@
       "@components/*": ["core/components/*"],
       "@api/*": ["core/api/*"],
       "@routes/*": ["core/routes/*"],
-      "@hooks/*": ["core/hooks/*"]
+      "@hooks/*": ["core/hooks/*"],
+      "@ctx/*": ["core/ctx/*"],
+      "@providers/*": ["core/providers/*"],
+      "@store/*": ["core/store/*"]
     }
   },
   "include": ["vite.config.ts"]

@@ -1,59 +1,32 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { fetchData } from '@api/api'
-import { FetchProductsResponse, Product } from '@api/api.models'
-
+import React, { useEffect, useState } from 'react'
 import Cards from '@components/Cards/Cards'
 import Loader from '@components/Loader/Loader'
 import ThrowError from '@components/ThrowError/ThrowError'
 import SearchField from '@components/SearchField/SearchField'
 import Pagination from '@components/Pagination/Pagination'
 import { Outlet, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import { useFetchProductsQuery } from '@store/slices/products.slice.tsx'
+import SelectedElements from '@components/SelectedElements/SelectedElements.tsx'
 
-function Main() {
-  const [loadingCards, setLoadingCards] = useState<boolean>(true)
-  const [cards, setCards] = useState<Product[]>([])
-  const [totalItems, setTotalItem] = useState<number>(0)
+const Main = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const location = useLocation()
   const navigate = useNavigate()
 
   const isDetailPage = location.pathname.startsWith('/details/')
   const page = Number(searchParams.get('page')) || 1
+  const [query, setQuery] = useState(localStorage.getItem('userSearch') || '')
 
-  const fetchProductsData = useCallback(async (query: string, page: number) => {
-    setCards([])
-    setLoadingCards(true)
-
-    try {
-      let result: FetchProductsResponse | null
-
-      if (query.length > 0) {
-        result = await fetchData(query, page)
-      } else {
-        result = await fetchData('', page)
-      }
-
-      if (result && result.products?.length <= 0) {
-        result = await fetchData()
-      }
-
-      setTotalItem(result?.total || 0)
-      setCards(result?.products || [])
-      setLoadingCards(false)
-    } catch (e) {
-      setCards([])
-      setLoadingCards(false)
-    }
-  }, [])
+  const { data, error, isLoading } = useFetchProductsQuery({ query, page })
 
   useEffect(() => {
-    const query: string = localStorage.getItem('userSearch') || ''
-    fetchProductsData(query, page)
-  }, [page])
+    setQuery(localStorage.getItem('userSearch') || '')
+  }, [])
 
-  const handleSearch = (query?: string) => {
+  const handleSearch = (searchQuery = '') => {
     setSearchParams({ page: '1' })
-    fetchProductsData(query || '', 1)
+    setQuery(searchQuery)
+    localStorage.setItem('userSearch', searchQuery)
   }
 
   const closeNestedElement = () => {
@@ -63,12 +36,12 @@ function Main() {
   return (
     <div className='container'>
       <SearchField onSearch={handleSearch} />
-      {loadingCards ? (
+      {isLoading ? (
         <Loader />
       ) : (
         <div className='nestedContainer'>
           <div onClick={closeNestedElement} className='containerElement'>
-            <Cards cards={cards} />
+            <Cards cards={data?.products || []} />
           </div>
           {isDetailPage && (
             <div className='containerElement'>
@@ -77,8 +50,9 @@ function Main() {
           )}
         </div>
       )}
-      {cards.length > 0 && <Pagination totalItemsAmount={totalItems} />}
-      <ThrowError />
+      {data?.products.length > 0 && <Pagination totalItemsAmount={data?.total || 0} />}
+      {error && <ThrowError />}
+      <SelectedElements />
     </div>
   )
 }

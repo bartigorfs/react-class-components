@@ -1,100 +1,68 @@
+import React from 'react'
+
 import { LazyLoadImage } from 'react-lazy-load-image-component'
+import noimage from '@assets/nothing.gif'
 
 import styles from './Card.module.css'
-import noimage from '@assets/nothing.gif'
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import Loader from '@components/Loader/Loader.tsx'
+import { useNavigate } from 'react-router-dom'
+import { useTheme } from '@hooks/useTheme/useTheme.tsx'
+import Checkbox from '@components/Checkbox/Checkbox.tsx'
+import { addSelectedId, removeSelectedId } from '@store/actions/products.actions.ts'
+import { useDispatch } from 'react-redux'
 import { Product } from '@api/api.models.ts'
-import { getElementInfo } from '@api/api.ts'
 
 interface CardProps {
-  id?: number
-  images?: string[] | undefined
-  thumbnail?: string
-  title?: string
-  description?: string
+  product: Product
+  bottomElement?: React.ReactNode
+  topElement?: React.ReactNode
+  ignoreCardClick?: boolean
 }
 
 function Card(props: CardProps) {
-  const [loading, setLoading] = useState(false)
-  const { detailId } = useParams()
-
-  const [cardImage, setCardImage] = useState<string | null>(null)
-  const [cardTumbnail, setCardTumbnail] = useState<string | null>(null)
-  const [cardTitle, setCardTitle] = useState<string | null>(null)
-  const [cardDescription, setCardDescription] = useState<string | null>(null)
-  const [showClose, setShowClose] = useState(false)
-
+  const { theme } = useTheme()
   const navigate = useNavigate()
-
-  useEffect(() => {
-    if (!props.id && detailId) {
-      loadCardData(Number(detailId))
-    }
-  }, [props, detailId])
-
-  const loadCardData = async (id: number | undefined): Promise<void> => {
-    if (!id) return
-
-    try {
-      setLoading(true)
-      const data: Product | null = await getElementInfo(id)
-      if (data) {
-        setCardImage(data?.images[0])
-        setCardTumbnail(data?.thumbnail)
-        setCardTitle(data?.title)
-        setCardDescription(data?.description)
-        setShowClose(true)
-      } else {
-        handleCloseComponent()
-      }
-    } catch (e) {
-      console.error(e)
-      setLoading(false)
-    } finally {
-      setLoading(false)
-    }
-  }
+  const dispatch = useDispatch()
 
   const handleCardClick = () => {
-    if (showClose) return
-    navigate(`/details/${props.id}${window.location.search}`)
+    navigate(`/details/${props.product.id}${window.location.search}`)
   }
 
-  const handleCloseComponent = () => {
-    navigate(`/${window.location.search}`)
+  const handleCheckboxClick = (event: React.MouseEvent<HTMLInputElement>) => {
+    event.stopPropagation()
   }
 
-  const displayCard = () => (
-    <div className={styles.cardBox} onClick={showClose ? null : () => handleCardClick()}>
+  const handleOnChange = (value: boolean) => {
+    if (value) {
+      dispatch(addSelectedId(props.product))
+    } else {
+      dispatch(removeSelectedId(props.product.id))
+    }
+  }
+
+  return (
+    <div key={props.product?.id} className={styles.cardBox} data-theme={theme}>
+      {!props.ignoreCardClick && (
+        <Checkbox label={'Select'} onChange={handleOnChange} onClick={() => handleCheckboxClick} />
+      )}
       <LazyLoadImage
         alt={'Image'}
+        onClick={props.ignoreCardClick ? null : () => handleCardClick()}
         height={'200'}
-        src={cardImage ? cardImage : props?.images?.length > 0 ? props?.images[0] : noimage}
-        placeholderSrc={cardTumbnail ? cardTumbnail : props.thumbnail}
+        src={props?.product?.images?.length > 0 ? props?.product?.images[0] : noimage}
+        placeholderSrc={props.product?.thumbnail}
         effect='blur'
         width={'200'}
       ></LazyLoadImage>
-      <div className={styles.cardTextBox}>
-        <div className='bold'>{cardTitle ? cardTitle : props.title}</div>
-        <div>{cardDescription ? cardDescription : props.description}</div>
+      <div
+        onClick={props.ignoreCardClick ? null : () => handleCardClick()}
+        className={styles.cardTextBox}
+      >
+        <div className='bold'>{props.product?.title}</div>
+        <div>{props.product?.description}</div>
       </div>
-      {showClose && (
-        <div className={styles.buttonContainer}>
-          <button onClick={handleCloseComponent}>Close</button>
-        </div>
-      )}
+      {props.bottomElement}
     </div>
   )
-
-  const displayLoading = () => (
-    <div className={styles.cardBox}>
-      <Loader height={200} width={200} />
-    </div>
-  )
-
-  return loading ? displayLoading() : displayCard()
 }
 
 export default Card

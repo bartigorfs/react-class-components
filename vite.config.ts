@@ -14,6 +14,9 @@ export default defineConfig({
       '@utils': path.resolve(__dirname, './src/core/utils'),
       '@routes': path.resolve(__dirname, './src/core/routes'),
       '@hooks': path.resolve(__dirname, './src/core/hooks'),
+      '@ctx': path.resolve(__dirname, './src/core/ctx'),
+      '@providers': path.resolve(__dirname, './src/core/providers'),
+      '@store': path.resolve(__dirname, './src/core/store'),
     },
   },
   test: {
