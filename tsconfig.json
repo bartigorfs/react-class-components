@@ -20,7 +20,7 @@
     "baseUrl": ".",
     "paths": {
       "@components/*": ["./src/core/components/*"],
-      "@assets/*": ["./src/assets/*"],
+      "@public/*": ["./public/*"],
       "@api/*": ["./src/core/api/*"],
       "@utils/*": ["./src/core/utils/*"],
       "@routes/*": ["./src/core/routes/*"],

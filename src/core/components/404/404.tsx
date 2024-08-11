@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import notfound from '@assets/nothing.gif'
+import notfound from '../../../../public/nothing.gif'
 import styles from './404.module.css'
 
 function NotFound() {

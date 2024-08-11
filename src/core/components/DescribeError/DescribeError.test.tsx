@@ -11,7 +11,7 @@ vi.mock('./DescribeError.module.css', () => ({
   },
 }))
 
-vi.mock('@assets/wasted.gif', () => ({
+vi.mock('@public/wasted.gif', () => ({
   __esModule: true,
   default: 'wasted.gif',
 }))

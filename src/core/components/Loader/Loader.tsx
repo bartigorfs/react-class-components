@@ -1,6 +1,6 @@
 import React from 'react'
 
-import loader from '@assets/loader.gif'
+import loader from '@public/loader.gif'
 import styles from './Loader.module.css'
 
 interface LoaderProps {

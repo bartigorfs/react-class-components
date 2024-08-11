@@ -1,6 +1,6 @@
 import React from 'react'
 
-import noimage from '@assets/nothing.gif'
+import noimage from '@public/nothing.gif'
 
 import styles from './Card.module.css'
 import { useNavigate } from 'react-router-dom'
