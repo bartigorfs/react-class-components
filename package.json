@@ -10,10 +10,10 @@
     }
   },
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
     "lint": "eslint . --ext ts,tsx",
-    "preview": "vite preview",
     "prepare": "husky",
     "prettier:check": "npx prettier . --check",
     "format:fix": "npx prettier . --write",
