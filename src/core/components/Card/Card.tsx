@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { LazyLoadImage } from 'react-lazy-load-image-component'
 import noimage from '@assets/nothing.gif'
 
 import styles from './Card.module.css'
@@ -10,6 +9,7 @@ import Checkbox from '@components/Checkbox/Checkbox.tsx'
 import { addSelectedId, removeSelectedId } from '@store/actions/products.actions.ts'
 import { useDispatch } from 'react-redux'
 import { Product } from '@api/api.models.ts'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 interface CardProps {
   product: Product
