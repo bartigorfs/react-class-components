@@ -11,7 +11,7 @@ vi.mock('react-router-dom', async () => {
   const actual = await vi.importActual('react-router-dom')
   return {
     ...actual,
-    useNavigate: vi.fn(), // Mock useNavigate
+    useNavigate: vi.fn(),
   }
 })
 
@@ -19,7 +19,8 @@ vi.mock('react-redux', async () => {
   const actual = await vi.importActual('react-redux')
   return {
     ...actual,
-    useDispatch: vi.fn(), // Mock useDispatch
+    useDispatch: vi.fn(),
+    useSelector: vi.fn(),
   }
 })
 

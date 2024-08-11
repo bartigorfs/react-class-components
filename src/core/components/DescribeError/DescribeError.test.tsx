@@ -27,7 +27,7 @@ describe('DescribeError component', () => {
     render(<DescribeError />)
     const imageElement = screen.getByAltText('Wasted')
     expect(imageElement).toBeInTheDocument()
-    expect(imageElement).toHaveAttribute('src', 'wasted.gif')
+    expect(imageElement).toHaveAttribute('src', 'https://i.imgur.com/iNeBfPb.gif')
   })
 
   it('renders the reload button', () => {

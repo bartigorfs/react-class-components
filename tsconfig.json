@@ -21,6 +21,7 @@
     "paths": {
       "@components/*": ["./src/core/components/*"],
       "@public/*": ["./public/*"],
+      "@assets/*": ["./src/core/assets/*"],
       "@api/*": ["./src/core/api/*"],
       "@utils/*": ["./src/core/utils/*"],
       "@routes/*": ["./src/core/routes/*"],

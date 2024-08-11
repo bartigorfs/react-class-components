@@ -1,7 +1,5 @@
 import React from 'react'
 
-import noimage from '@public/nothing.gif'
-
 import styles from './Card.module.css'
 import { useNavigate } from 'react-router-dom'
 import { useTheme } from '@hooks/useTheme/useTheme.tsx'
@@ -55,7 +53,11 @@ function Card(props: CardProps) {
         alt={'Image'}
         onClick={props.ignoreCardClick ? null : () => handleCardClick()}
         height={'200'}
-        src={props?.product?.images?.length > 0 ? props?.product?.images[0] : noimage.src}
+        src={
+          props?.product?.images?.length > 0
+            ? props?.product?.images[0]
+            : 'https://i.imgur.com/apgV4mk.gif'
+        }
         placeholderSrc={props.product?.thumbnail}
         effect='blur'
         width={'200'}

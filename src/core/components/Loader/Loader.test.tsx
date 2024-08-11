@@ -26,7 +26,7 @@ describe('Loader component', () => {
   it('displays the correct image source', () => {
     render(<Loader />)
 
-    expect(screen.getByRole('img')).toHaveAttribute('src', 'loader.gif')
+    expect(screen.getByRole('img')).toHaveAttribute('src', 'https://i.imgur.com/lHYnk4w.gif')
   })
 
   it('applies the correct width and height from props', () => {
