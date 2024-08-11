@@ -29,7 +29,10 @@
       "@api/*": ["core/api/*"],
       "@utils/*": ["core/utils/*"],
       "@routes/*": ["core/routes/*"],
-      "@hooks/*": ["core/hooks/*"]
+      "@hooks/*": ["core/hooks/*"],
+      "@ctx/*": ["core/ctx/*"],
+      "@providers/*": ["core/providers/*"],
+      "@store/*": ["core/store/*"]
     },
     "allowSyntheticDefaultImports": true
   },

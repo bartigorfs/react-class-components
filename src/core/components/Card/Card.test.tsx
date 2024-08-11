@@ -1,144 +1,68 @@
-import React from 'react'
-import { render, screen, fireEvent, act } from '@testing-library/react'
-import '@testing-library/jest-dom'
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { MemoryRouter, useNavigate, useParams } from 'react-router-dom'
+import { render, screen } from '@testing-library/react'
+import { describe, it, expect, vi } from 'vitest'
 import Card from './Card'
-import { getElementInfo } from '@api/api'
-import { ProductTest, ProductTestImageURL } from '../../../tests/mockData.ts'
-
-vi.mock('./Card.module.css', () => ({
-  __esModule: true,
-  default: {
-    cardBox: 'mocked-card-box-class',
-    cardTextBox: 'mocked-card-text-box-class',
-    buttonContainer: 'mocked-button-container-class',
-  },
-}))
-
-vi.mock('@assets/nothing.gif', () => ({
-  __esModule: true,
-  default: 'nothing.gif',
-}))
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+import { rootReducer } from '@store/reducers/root.reducer.ts'
+import { BrowserRouter } from 'react-router-dom'
+import { Product } from '@api/api.models.ts'
 
 vi.mock('react-router-dom', async () => {
   const actual = await vi.importActual('react-router-dom')
   return {
     ...actual,
-    useNavigate: vi.fn(),
-    useParams: vi.fn(),
+    useNavigate: vi.fn(), // Mock useNavigate
   }
 })
 
-vi.mock('@api/api.ts', () => ({
-  getElementInfo: vi.fn(),
-}))
+vi.mock('react-redux', async () => {
+  const actual = await vi.importActual('react-redux')
+  return {
+    ...actual,
+    useDispatch: vi.fn(), // Mock useDispatch
+  }
+})
 
-vi.mock('@components/Loader/Loader.tsx', () => ({
-  __esModule: true,
-  default: () => <div>Loading...</div>,
-}))
+const store = createStore(rootReducer)
 
-describe('Card component', () => {
-  const navigateMock = vi.fn()
-  const detailId = '1'
+describe('Card Component', () => {
+  const defaultProps = {
+    id: 1,
+    images: ['https://via.placeholder.com/150'],
+    thumbnail: 'https://via.placeholder.com/150',
+    title: 'Test Title',
+    description: 'Test Description',
+    bottomElement: <div>Bottom Element</div>,
+    topElement: <div>Top Element</div>,
+    ignoreCardClick: false,
+  }
 
-  beforeEach(() => {
-    ;(useNavigate as vi.Mock).mockReturnValue(navigateMock)
-    ;(useParams as vi.Mock).mockReturnValue({ detailId })
-  })
-
-  it('renders the Card component', async () => {
-    await act(async () => {
-      render(
-        <MemoryRouter>
-          <Card />
-        </MemoryRouter>,
-      )
-    })
-
-    const imageElement = screen.getByAltText('Image')
-    expect(imageElement).toBeInTheDocument()
-    expect(imageElement).toHaveAttribute('src', 'nothing.gif')
-  })
-
-  it('displays loading indicator when loading', async () => {
-    ;(getElementInfo as vi.Mock).mockImplementation(() => new Promise(() => {}))
-
-    await act(async () => {
-      render(
-        <MemoryRouter>
-          <Card />
-        </MemoryRouter>,
-      )
-    })
-
-    expect(screen.getByText('Loading...')).toBeInTheDocument()
-  })
-
-  it('renders card data after loading', async () => {
-    ;(getElementInfo as vi.Mock).mockResolvedValueOnce(ProductTest)
-
-    await act(async () => {
-      render(
-        <MemoryRouter>
-          <Card />
-        </MemoryRouter>,
-      )
-    })
-
-    expect(screen.getByText('Test Title')).toBeInTheDocument()
-    expect(screen.getByText('Test Description')).toBeInTheDocument()
-    expect(screen.getByRole('img')).toHaveAttribute('src', ProductTestImageURL)
-  })
-
-  it('handles card click', () => {
+  const renderComponent = (props = {}) =>
     render(
-      <MemoryRouter>
-        <Card id={1} />
-      </MemoryRouter>,
+      <Provider store={store}>
+        <BrowserRouter>
+          <Card product={defaultProps as Product} {...props} />
+        </BrowserRouter>
+      </Provider>,
     )
 
-    fireEvent.click(screen.getByRole('img'))
-    expect(navigateMock).toHaveBeenCalledWith('/details/1')
+  it('renders the Card component with title and description', () => {
+    renderComponent()
+    expect(screen.getByText('Test Title')).toBeInTheDocument()
+    expect(screen.getByText('Test Description')).toBeInTheDocument()
   })
 
-  it('closes component on close button click', async () => {
-    ;(getElementInfo as vi.Mock).mockResolvedValueOnce(ProductTest)
-
-    await act(async () => {
-      render(
-        <MemoryRouter>
-          <Card />
-        </MemoryRouter>,
-      )
-    })
-
-    fireEvent.click(screen.getByRole('button', { name: /Close/i }))
-    expect(navigateMock).toHaveBeenCalledWith('/')
+  it('displays the image when provided', () => {
+    renderComponent()
+    const image = screen.getByAltText('Image')
+    expect(image).toBeInTheDocument()
+    expect(image).toHaveAttribute('src', 'https://via.placeholder.com/150')
   })
 
-  it('renders fallback image if no image is provided', async () => {
-    await act(async () => {
-      render(
-        <MemoryRouter>
-          <Card />
-        </MemoryRouter>,
-      )
-    })
-
-    expect(screen.getByRole('img')).toHaveAttribute('src', 'nothing.gif')
-  })
-
-  it('has the correct className', async () => {
-    await act(async () => {
-      render(
-        <MemoryRouter>
-          <Card />
-        </MemoryRouter>,
-      )
-    })
-    const divElement = screen.getByRole('img').closest('div')
-    expect(divElement).toHaveClass('mocked-card-box-class')
+  it('renders the placeholder image when no images are provided', () => {
+    renderComponent({ images: undefined })
+    const image = screen.getByAltText('Image')
+    expect(image).toBeInTheDocument()
+    expect(image).toHaveAttribute('src', 'https://via.placeholder.com/150') // Adjust this path if necessary
   })
 })

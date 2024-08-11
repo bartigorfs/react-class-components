@@ -16,6 +16,10 @@
   border-color: #ffffff;
 }
 
+.cardBox:hover[data-theme='light'] {
+  border-color: var(--color-button-bg);
+}
+
 .cardTextBox {
   align-items: start;
   padding: 1rem;
@@ -23,10 +27,4 @@
 
 .cardTextBox .title {
   font-weight: bold;
-}
-
-.buttonContainer {
-  display: flex;
-  padding: 1em;
-  justify-content: center;
 }
