@@ -1,5 +1,5 @@
 import { IProductsReducer, IState } from '@store/reducers/products/products.model.ts'
-import { ADD_SELECTED_ID, REMOVE_SELECTED_ID } from '@store/actions/products.actions.ts'
+import { ADD_SELECTED_ID, REMOVE_ALL_SELECTED_ID, REMOVE_SELECTED_ID } from '@store/actions/products.actions.ts'
 import { createSelector } from '@reduxjs/toolkit'
 import { Product } from '@api/api.models.ts'
 
@@ -21,6 +21,12 @@ export const productsReducer = (state: IProductsReducer = initialState, action) 
           (item: Product) => item.id !== action.payload,
         ),
       }
+    case REMOVE_ALL_SELECTED_ID: {
+      return {
+        ...state,
+        selectedProducts: initialState
+      }
+    }
     default:
       return state
   }
