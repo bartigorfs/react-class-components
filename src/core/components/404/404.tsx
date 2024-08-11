@@ -10,7 +10,7 @@ function NotFound() {
   return (
     <div className={styles.container}>
       <h1>Snort, snort, nothing!</h1>
-      <img src={notfound} alt='Not found' />
+      <img src={notfound.src} alt='Not found' />
       <button onClick={() => navigate(-1)}>Go back</button>
     </div>
   )

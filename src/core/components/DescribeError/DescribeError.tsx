@@ -11,7 +11,7 @@ function DescribeError() {
   return (
     <div className={classes.box}>
       <h1>You got an error! Yay!</h1>
-      <img src={wasted} alt='Wasted'></img>
+      <img src={wasted.src} alt='Wasted'></img>
       <button onClick={reloadPage}>Bruh, reload?</button>
     </div>
   )

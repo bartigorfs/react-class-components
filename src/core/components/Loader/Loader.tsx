@@ -11,7 +11,7 @@ interface LoaderProps {
 function Loader(props: LoaderProps) {
   return (
     <div className={styles.container}>
-      <img width={props.width} height={props.height} src={loader} alt='Loading...'></img>
+      <img width={props.width} height={props.height} src={loader.src} alt='Loading...'></img>
     </div>
   )
 }

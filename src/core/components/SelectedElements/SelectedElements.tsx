@@ -10,7 +10,7 @@ import { Product } from '@api/api.models.ts'
 import { removeAllSelectedId } from '@store/actions/products.actions.ts'
 
 export default function SelectedElements() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const selectedItemsCount: number | undefined = useSelector(selectSelectedProductsCount)
   const showElement: boolean = useSelector(showSelectedElements)
   const selectedProducts: Product[] = useSelector(selectSelectedProducts)
