@@ -4,9 +4,8 @@ import { productsReducer } from '@store/reducers/products/products.reducer' // �
 import { ADD_SELECTED_ID, REMOVE_SELECTED_ID } from '@store/actions/products.actions' // Путь к вашим действиям
 import { IProductsReducer } from '@store/reducers/products/products.model' // Путь к модели состояния
 
-// Начальное состояние редуктора
 const initialState: IProductsReducer = {
-  selectedIds: [],
+  selectedProducts: [],
 }
 
 describe('productsReducer', () => {
@@ -15,10 +14,10 @@ describe('productsReducer', () => {
   })
 
   it('should handle ADD_SELECTED_ID', () => {
-    const idToAdd = 1
-    const action = { type: ADD_SELECTED_ID, payload: idToAdd }
+    const data = { id: 1, title: 'TEST' }
+    const action = { type: ADD_SELECTED_ID, payload: data }
     const expectedState = {
-      selectedIds: [idToAdd],
+      selectedProducts: [data],
     }
 
     expect(productsReducer(initialState, action)).toEqual(expectedState)
@@ -26,12 +25,19 @@ describe('productsReducer', () => {
 
   it('should handle REMOVE_SELECTED_ID', () => {
     const initialStateWithIds = {
-      selectedIds: [1, 2, 3],
+      selectedProducts: [
+        { id: 1, title: 'TEST' },
+        { id: 2, title: 'TEST' },
+        { id: 3, title: 'TEST' },
+      ],
     }
     const idToRemove = 2
     const action = { type: REMOVE_SELECTED_ID, payload: idToRemove }
     const expectedState = {
-      selectedIds: [1, 3],
+      selectedProducts: [
+        { id: 1, title: 'TEST' },
+        { id: 3, title: 'TEST' },
+      ],
     }
 
     expect(productsReducer(initialStateWithIds, action)).toEqual(expectedState)
@@ -39,12 +45,20 @@ describe('productsReducer', () => {
 
   it('should handle REMOVE_SELECTED_ID for non-existent ID', () => {
     const initialStateWithIds = {
-      selectedIds: [1, 2, 3],
+      selectedProducts: [
+        { id: 1, title: 'TEST' },
+        { id: 2, title: 'TEST' },
+        { id: 3, title: 'TEST' },
+      ],
     }
-    const idToRemove = 4 // Не существует в текущем состоянии
+    const idToRemove = 4
     const action = { type: REMOVE_SELECTED_ID, payload: idToRemove }
     const expectedState = {
-      selectedIds: [1, 2, 3], // Состояние должно остаться неизменным
+      selectedProducts: [
+        { id: 1, title: 'TEST' },
+        { id: 2, title: 'TEST' },
+        { id: 3, title: 'TEST' },
+      ],
     }
 
     expect(productsReducer(initialStateWithIds, action)).toEqual(expectedState)

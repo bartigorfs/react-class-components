@@ -1,3 +1,13 @@
+import { Product } from '@api/api.models.ts'
+
 export interface IProductsReducer {
-  selectedIds: number[]
+  selectedProducts: Product[]
+}
+
+export interface IState {
+  root: IProducts
+}
+
+export interface IProducts {
+  products: IProductsReducer
 }

@@ -1,8 +1,10 @@
-import { IProductsReducer } from '@store/reducers/products/products.model.ts'
+import { IProductsReducer, IState } from '@store/reducers/products/products.model.ts'
 import { ADD_SELECTED_ID, REMOVE_SELECTED_ID } from '@store/actions/products.actions.ts'
+import { createSelector } from '@reduxjs/toolkit'
+import { Product } from '@api/api.models.ts'
 
 const initialState: IProductsReducer = {
-  selectedIds: [],
+  selectedProducts: [],
 }
 
 export const productsReducer = (state: IProductsReducer = initialState, action) => {
@@ -10,14 +12,26 @@ export const productsReducer = (state: IProductsReducer = initialState, action) 
     case ADD_SELECTED_ID:
       return {
         ...state,
-        selectedIds: [...state.selectedIds, action.payload],
+        selectedProducts: [...state.selectedProducts, action.payload],
       }
     case REMOVE_SELECTED_ID:
       return {
         ...state,
-        selectedIds: state.selectedIds.filter((item) => item !== action.payload),
+        selectedProducts: state.selectedProducts.filter(
+          (item: Product) => item.id !== action.payload,
+        ),
       }
     default:
       return state
   }
 }
+
+export const selectSelectedProductsCount = (state: IState) =>
+  state.root.products.selectedProducts?.length
+
+export const showSelectedElements = createSelector(
+  [selectSelectedProductsCount],
+  (value: number | undefined) => value > 0,
+)
+
+export const selectSelectedProducts = (state: IState) => state.root.products.selectedProducts

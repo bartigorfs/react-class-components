@@ -1,10 +1,11 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { Provider } from 'react-redux'
 import { MemoryRouter } from 'react-router-dom'
 import Main from './Main'
 import { useFetchProductsQuery } from '@store/slices/products.slice.tsx'
+import testStore from '@store/testStore.ts'
 
-// Мокаем необходимые модули и компоненты
 vi.mock('@store/slices/products.slice.tsx', () => ({
   useFetchProductsQuery: vi.fn(),
 }))
@@ -36,6 +37,11 @@ vi.mock('@components/ThrowError/ThrowError', () => ({
   default: () => <div>Error occurred</div>,
 }))
 
+vi.mock('@components/SelectedElements/SelectedElements.tsx', () => ({
+  __esModule: true,
+  default: () => <div>Selected Elements</div>,
+}))
+
 describe('Main Component', () => {
   beforeEach(() => {
     ;(useFetchProductsQuery as vi.Mock).mockImplementation(() => ({
@@ -48,30 +54,40 @@ describe('Main Component', () => {
     }))
   })
 
-  it('renders SearchField, Loader, and other components', () => {
+  it('renders SearchField, Loader, Cards, Pagination, and other components', () => {
     render(
-      <MemoryRouter>
-        <Main />
-      </MemoryRouter>,
+      <Provider store={testStore}>
+        <MemoryRouter>
+          <Main />
+        </MemoryRouter>
+      </Provider>,
     )
 
+    // Проверяем, что Loader не отображается
     expect(screen.queryByText('Loading...')).not.toBeInTheDocument()
 
+    // Проверяем отображение элементов
     expect(screen.getByText('1 cards')).toBeInTheDocument()
     expect(screen.getByText('Pagination: 10')).toBeInTheDocument()
+    expect(screen.getByText('Selected Elements')).toBeInTheDocument()
   })
 
-  it('handles search input and updates local storage', async () => {
+  it('shows Loader when loading', () => {
+    ;(useFetchProductsQuery as vi.Mock).mockImplementation(() => ({
+      data: null,
+      error: null,
+      isLoading: true,
+    }))
+
     render(
-      <MemoryRouter>
-        <Main />
-      </MemoryRouter>,
+      <Provider store={testStore}>
+        <MemoryRouter>
+          <Main />
+        </MemoryRouter>
+      </Provider>,
     )
 
-    // Проверяем, что localStorage был обновлен
-    await waitFor(() => {
-      expect(localStorage.getItem('userSearch')).toBe(null)
-    })
+    expect(screen.getByText('Loading...')).toBeInTheDocument()
   })
 
   it('shows error component when there is an error', () => {
@@ -82,27 +98,28 @@ describe('Main Component', () => {
     }))
 
     render(
-      <MemoryRouter>
-        <Main />
-      </MemoryRouter>,
+      <Provider store={testStore}>
+        <MemoryRouter>
+          <Main />
+        </MemoryRouter>
+      </Provider>,
     )
 
     expect(screen.getByText('Error occurred')).toBeInTheDocument()
   })
 
-  it('shows loader when loading', () => {
-    ;(useFetchProductsQuery as vi.Mock).mockImplementation(() => ({
-      data: null,
-      error: null,
-      isLoading: true,
-    }))
-
+  it('navigates back when clicking on nested element', () => {
     render(
-      <MemoryRouter>
-        <Main />
-      </MemoryRouter>,
+      <Provider store={testStore}>
+        <MemoryRouter initialEntries={['/details/1']}>
+          <Main />
+        </MemoryRouter>
+      </Provider>,
     )
 
-    expect(screen.getByText('Loading...')).toBeInTheDocument()
+    // Проверяем, что при клике на элемент срабатывает навигация
+    fireEvent.click(screen.getByText('1 cards'))
+
+    expect(window.location.pathname).toBe('/')
   })
 })

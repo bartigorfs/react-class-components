@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import styles from './Checkbox.module.css'
 
 export interface CheckboxProps {
   label?: string
@@ -18,13 +19,14 @@ export default function Checkbox(props: CheckboxProps): JSX.Element {
   }
 
   return (
-    <label>
+    <label className={styles.container}>
       <input
         type='checkbox'
         checked={props.checked}
         onChange={handleChange}
         onClick={() => props.onClick}
       />
+      <span className={styles.checkmark}></span>
       {props.label}
     </label>
   )

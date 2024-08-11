@@ -6,6 +6,7 @@ import SearchField from '@components/SearchField/SearchField'
 import Pagination from '@components/Pagination/Pagination'
 import { Outlet, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { useFetchProductsQuery } from '@store/slices/products.slice.tsx'
+import SelectedElements from '@components/SelectedElements/SelectedElements.tsx'
 
 const Main = () => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -51,6 +52,7 @@ const Main = () => {
       )}
       {data?.products.length > 0 && <Pagination totalItemsAmount={data?.total || 0} />}
       {error && <ThrowError />}
+      <SelectedElements />
     </div>
   )
 }

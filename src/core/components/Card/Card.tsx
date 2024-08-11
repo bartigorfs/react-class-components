@@ -8,13 +8,11 @@ import { useNavigate } from 'react-router-dom'
 import { useTheme } from '@hooks/useTheme/useTheme.tsx'
 import Checkbox from '@components/Checkbox/Checkbox.tsx'
 import { addSelectedId, removeSelectedId } from '@store/actions/products.actions.ts'
+import { useDispatch } from 'react-redux'
+import { Product } from '@api/api.models.ts'
 
 interface CardProps {
-  id?: number
-  images?: string[] | undefined
-  thumbnail?: string
-  title?: string
-  description?: string
+  product: Product
   bottomElement?: React.ReactNode
   topElement?: React.ReactNode
   ignoreCardClick?: boolean
@@ -23,9 +21,10 @@ interface CardProps {
 function Card(props: CardProps) {
   const { theme } = useTheme()
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const handleCardClick = () => {
-    navigate(`/details/${props.id}${window.location.search}`)
+    navigate(`/details/${props.product.id}${window.location.search}`)
   }
 
   const handleCheckboxClick = (event: React.MouseEvent<HTMLInputElement>) => {
@@ -34,14 +33,14 @@ function Card(props: CardProps) {
 
   const handleOnChange = (value: boolean) => {
     if (value) {
-      dispatch(addSelectedId(props.id))
+      dispatch(addSelectedId(props.product))
     } else {
-      dispatch(removeSelectedId(props.id))
+      dispatch(removeSelectedId(props.product.id))
     }
   }
 
   return (
-    <div key={props.id} className={styles.cardBox} data-theme={theme}>
+    <div key={props.product?.id} className={styles.cardBox} data-theme={theme}>
       {!props.ignoreCardClick && (
         <Checkbox label={'Select'} onChange={handleOnChange} onClick={() => handleCheckboxClick} />
       )}
@@ -49,8 +48,8 @@ function Card(props: CardProps) {
         alt={'Image'}
         onClick={props.ignoreCardClick ? null : () => handleCardClick()}
         height={'200'}
-        src={props?.images?.length > 0 ? props?.images[0] : noimage}
-        placeholderSrc={props.thumbnail}
+        src={props?.product?.images?.length > 0 ? props?.product?.images[0] : noimage}
+        placeholderSrc={props.product?.thumbnail}
         effect='blur'
         width={'200'}
       ></LazyLoadImage>
@@ -58,8 +57,8 @@ function Card(props: CardProps) {
         onClick={props.ignoreCardClick ? null : () => handleCardClick()}
         className={styles.cardTextBox}
       >
-        <div className='bold'>{props.title}</div>
-        <div>{props.description}</div>
+        <div className='bold'>{props.product?.title}</div>
+        <div>{props.product?.description}</div>
       </div>
       {props.bottomElement}
     </div>

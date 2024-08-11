@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import Loader from '@components/Loader/Loader.tsx'
 import { useGetElementInfoQuery } from '@store/slices/products.slice.tsx'
 import Card from '@components/Card/Card.tsx'
+import { Product } from '@api/api.models.ts'
 
 function SearchCard() {
   const { detailId } = useParams()
@@ -37,7 +38,7 @@ function SearchCard() {
   }
 
   const displayCard = () => {
-    return <Card {...data} bottomElement={<CloseButton />} ignoreCardClick={true} />
+    return <Card product={data as Product} bottomElement={<CloseButton />} ignoreCardClick={true} />
   }
 
   const displayLoading = () => (
