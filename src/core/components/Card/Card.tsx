@@ -1,15 +1,14 @@
 import React from 'react'
 
-import { LazyLoadImage } from 'react-lazy-load-image-component'
-import noimage from '@assets/nothing.gif'
-
 import styles from './Card.module.css'
 import { useNavigate } from 'react-router-dom'
 import { useTheme } from '@hooks/useTheme/useTheme.tsx'
 import Checkbox from '@components/Checkbox/Checkbox.tsx'
 import { addSelectedId, removeSelectedId } from '@store/actions/products.actions.ts'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Product } from '@api/api.models.ts'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
+import { selectSelectedProductState } from '@store/reducers/products/products.reducer.ts'
 
 interface CardProps {
   product: Product
@@ -21,6 +20,7 @@ interface CardProps {
 function Card(props: CardProps) {
   const { theme } = useTheme()
   const navigate = useNavigate()
+  const isSelected = useSelector(selectSelectedProductState(props.product?.id))
   const dispatch = useDispatch()
 
   const handleCardClick = () => {
@@ -42,13 +42,22 @@ function Card(props: CardProps) {
   return (
     <div key={props.product?.id} className={styles.cardBox} data-theme={theme}>
       {!props.ignoreCardClick && (
-        <Checkbox label={'Select'} onChange={handleOnChange} onClick={() => handleCheckboxClick} />
+        <Checkbox
+          label={'Select'}
+          onChange={handleOnChange}
+          onClick={() => handleCheckboxClick}
+          value={isSelected}
+        />
       )}
       <LazyLoadImage
         alt={'Image'}
         onClick={props.ignoreCardClick ? null : () => handleCardClick()}
         height={'200'}
-        src={props?.product?.images?.length > 0 ? props?.product?.images[0] : noimage}
+        src={
+          props?.product?.images?.length > 0
+            ? props?.product?.images[0]
+            : 'https://i.imgur.com/apgV4mk.gif'
+        }
         placeholderSrc={props.product?.thumbnail}
         effect='blur'
         width={'200'}

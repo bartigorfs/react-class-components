@@ -26,6 +26,7 @@ const Main = () => {
   const handleSearch = (searchQuery = '') => {
     setSearchParams({ page: '1' })
     setQuery(searchQuery)
+    console.log(searchQuery)
     localStorage.setItem('userSearch', searchQuery)
   }
 

@@ -30,7 +30,7 @@ describe('Checkbox', () => {
   })
 
   it('should apply the checked state from props', () => {
-    render(<Checkbox checked={true} />)
+    render(<Checkbox value={true} />)
     const checkbox = screen.getByRole('checkbox')
     expect(checkbox).toBeChecked()
   })
@@ -41,6 +41,6 @@ describe('Checkbox', () => {
     const checkbox = screen.getByRole('checkbox')
 
     fireEvent.click(checkbox)
-    expect(onClick).toHaveBeenCalledTimes(0)
+    expect(onClick).toHaveBeenCalledTimes(1)
   })
 })

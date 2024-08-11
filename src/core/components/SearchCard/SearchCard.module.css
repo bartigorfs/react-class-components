@@ -12,8 +12,8 @@
   border: 1px solid gray;
   max-width: 20vw;
   cursor: pointer;
+}
 
-  img {
-    object-fit: contain;
-  }
+.cardBox img {
+  object-fit: contain;
 }

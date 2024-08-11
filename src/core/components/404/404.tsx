@@ -1,7 +1,5 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-
-import notfound from '@assets/nothing.gif'
 import styles from './404.module.css'
 
 function NotFound() {
@@ -10,7 +8,7 @@ function NotFound() {
   return (
     <div className={styles.container}>
       <h1>Snort, snort, nothing!</h1>
-      <img src={notfound} alt='Not found' />
+      <img src={'https://i.imgur.com/apgV4mk.gif'} alt='Not found' />
       <button onClick={() => navigate(-1)}>Go back</button>
     </div>
   )

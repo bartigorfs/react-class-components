@@ -3,18 +3,13 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { describe, it, expect, vi } from 'vitest'
 import { MemoryRouter, useNavigate } from 'react-router-dom'
-import NotFound from '@components/404/404.tsx'
+import NotFound from './404.tsx'
 
 vi.mock('./404.module.css', () => ({
   __esModule: true,
   default: {
     container: 'mocked-container-class',
   },
-}))
-
-vi.mock('@assets/nothing.gif', () => ({
-  __esModule: true,
-  default: 'nothing.gif',
 }))
 
 vi.mock('react-router-dom', async () => {
@@ -44,7 +39,7 @@ describe('NotFound component', () => {
     )
     const imageElement = screen.getByAltText('Not found')
     expect(imageElement).toBeInTheDocument()
-    expect(imageElement).toHaveAttribute('src', 'nothing.gif')
+    expect(imageElement).toHaveAttribute('src', 'https://i.imgur.com/apgV4mk.gif')
   })
 
   it('renders the Go back button', () => {

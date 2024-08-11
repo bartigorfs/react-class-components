@@ -1,10 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { FetchProductsResponse, Product } from './api.models.ts'
+import { FetchProductsResponse, Product } from '@api/api.models.ts'
 
-const apiUrl = import.meta.env.VITE_API_URL
-const productsMaxCount = import.meta.env.VITE_API_PRODUCTS_MAX_COUNT
-const throttleTime = import.meta.env.VITE_API_THROTTLE_TIME
-const startCategory = import.meta.env.VITE_API_START_CATEGORY
+const apiUrl = process.env.NEXT_PUBLIC_API_URL
+const productsMaxCount = process.env.NEXT_PUBLIC_API_PRODUCTS_MAX_COUNT
+const throttleTime = process.env.NEXT_PUBLIC_API_THROTTLE_TIME
+const startCategory = process.env.NEXT_PUBLIC_API_START_CATEGORY
 
 export const productsSlice = createApi({
   reducerPath: 'api',

@@ -5,7 +5,6 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { MemoryRouter, useSearchParams } from 'react-router-dom'
 import Pagination from './Pagination'
 
-// Мокаем стили, если вы используете CSS-модули
 vi.mock('./Pagination.module.css', () => ({
   __esModule: true,
   default: {

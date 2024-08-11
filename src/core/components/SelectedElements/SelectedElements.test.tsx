@@ -16,6 +16,7 @@ vi.mock('../../util/DownloadCSV.tsx', () => ({
 
 vi.mock('react-redux', () => ({
   useSelector: vi.fn(),
+  useDispatch: vi.fn(),
 }))
 
 const mockUseSelector = redux.useSelector as jest.Mock
